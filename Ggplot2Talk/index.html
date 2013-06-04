@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Slidify</title>
+  <title>ggplot2</title>
   <meta charset="utf-8">
-  <meta name="description" content="Slidify">
+  <meta name="description" content="ggplot2">
   <meta name="author" content="Tim Churches">
   <meta name="generator" content="slidify" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
-  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/phone.css" 
     media="only screen and (max-device-width: 480px)" >
-  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
-  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
   <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
-  <script data-main="../../libraries/frameworks/io2012/js/slides" 
-    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
   </script>
   
-    <link rel="stylesheet" href = "../../libraries/widgets/bootstrap/css/bootstrap.css">
-<link rel="stylesheet" href = "../../libraries/widgets/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href = "../../libraries/widgets/quiz/css/jquery-quiz.css">
-<link rel="stylesheet" href = "assets/css/ribbons.css">
+    <link rel="stylesheet" href = "assets/css/ribbons.css">
 
 </head>
 <body style="opacity: 0">
@@ -31,7 +28,7 @@
     <slide class="nobackground">
       <article class="flexbox vcenter">
         <span>
-          <img width='400px' src="assets/img/slidify_logo.png">
+          <img width='400px' src="assets/img/saxinstitute_logo.png">
         </span>
       </article>
     </slide>
@@ -42,16 +39,13 @@
     <!-- Should I move this to a Local Layout File? -->
     <slide class="title-slide segue nobackground">
       <aside class="gdbar">
-        <img src="assets/img/slidify_logo.png">
+        <img src="assets/img/Rlogo.png">
       </aside>
       <hgroup class="auto-fadein">
-        <h1>Slidify</h1>
-        <h2>Reproducible HTML5 Slides</h2>
-        <p>Tim Churches<br/>Epidemiologist, The Sax Institute</p>
+        <h1>ggplot2</h1>
+        <h2>grammar for graphics</h2>
+        <p>Tim Churches<br/>The Sax Institute, Sydney, Australia</p>
       </hgroup>
-      <a href="https://github.com/timchurches/Ggplot2Talk/zipball/gh-pages" class="example">
-        Download
-      </a>
       
       <footer class = 'license'>
         <a href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>
@@ -63,58 +57,68 @@
     <!-- SLIDES -->
       <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    
+    <h2>Source</h2>
   </hgroup>
   <article>
-    <pre><code class="r echo = F">opts_chunk$set(cache = F)
-</code></pre>
+    <p>The majority of the material in this presentation is taken from the book:</p>
 
-<h2>Test Features of Slidify</h2>
-
-<style>
-body {
-  background-color: #000;
-}
-.quiz-option label{
-  display: inline;
-  font-size: 1em;
-}
-ul.nav li::before { content: ""; }  
-ul.nav li{ font-size: 18px; line-height: 24px;}
-</style>
-
-<ol>
-<li>Mathjax</li>
-<li>Layouts</li>
-<li>Backgrounds</li>
-<li>Widgets</li>
-<li>Overlays</li>
-<li>Metadata</li>
-<li>Embeds</li>
-</ol>
+<ul>
+<li>Hadley Wickham. <em>ggplot2: Elegant Graphics for Data Analysis</em> Springer:2009</li>
+<li>DOI 10.1007/978-0-387-98141-3</li>
+<li><img src="assets/img/hadley_wickham.jpg" alt="Hadley Wickham"></li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      NULL
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>A grammar of graphics</h2>
+  </hgroup>
+  <article>
+    <p>Wilkinson (2005) created a grammar of graphics to describe the deep features that underlie all statistical graphics as &quot;parts of speech&quot;: </p>
+
+<ul class = "build">
+<li>The <code>data</code> that you want to visualise</li>
+<li>An aesthetic mapping, <code>aes</code> for short, describing how variables in the data are mapped to aesthetic attributes that you can perceive</li>
+<li>geometric objects, <code>geoms</code> for short, representing what you actually see on the plot: points, lines, polygons, etc</li>
+<li>optional statistical transformations, <code>stats</code> for short, summarising data in many useful ways, e.g.
+
+<ul>
+<li>binning and counting observations to create a histogram</li>
+<li>summarising the relationship between two variables with a linear model</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
       <slide class="" id="slide-3" style="background:;">
   <hgroup>
-    <h2>Nested Lists</h2>
+    <h2>A grammar of graphics, cont&#39;d</h2>
   </hgroup>
   <article>
     <ul class = "build">
-<li><p>Thing 1</p>
+<li>a coordinate system, <code>coord</code> for short, describing how data coordinates are mapped to the plane of the graphic
 
 <ul>
-<li>Point 1</li>
-<li>Point 2</li>
+<li>also provides axes and gridlines to make it possible to read the graph</li>
+<li>a Cartesian coordinate system, but a number of others are available, including polar coordinates and cartographic map projections</li>
 </ul></li>
-<li><p>Thing 2</p>
+<li><code>scales</code> which map values in the data space to values in one or more aesthetic spaces
 
 <ul>
-<li>Point 3</li>
-<li>Point 4</li>
+<li>indicate position in Cartesian or other 2-dimensional projections</li>
+<li>encode values as colour, size or shape of symbols, lines</li>
+<li><code>scales</code> draw labelled axes and/or a legend</li>
+<li>provide a reverse mapping to make it possible to read the original data values from the graph</li>
+</ul></li>
+<li>a <code>facet</code> specification describing how to break up the data into subsets and how to display those subsets as and arrangement of small multiples
+
+<ul>
+<li>known as conditioning or latticing/trellising (&quot;panelling&quot; in the Lattice package) </li>
 </ul></li>
 </ul>
 
@@ -124,11 +128,31 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
 
       <slide class="" id="slide-4" style="background:;">
   <hgroup>
-    
+    <h2>Grammar not pronounciation</h2>
   </hgroup>
   <article>
-    <p>This is to test if the tab template works correctly</p>
+    <ul class = "build">
+<li><p>the Wilkinson grammar of graphics does not include finer points of display</p>
 
+<ul>
+<li>font size or background colour, are not specified by the grammar</li>
+<li>such attributes are analogus to pronunciation (or maybe typography?)</li>
+</ul></li>
+<li><p>ggplot2 specifies such attributes with a <code>theming</code> system</p>
+
+<ul>
+<li>the default theme is very attractive, and thoughtfully designs</li>
+<li>alternative themes come with the package</li>
+<li>easy to tweak themes or design your own</li>
+</ul></li>
+<li><p>ggplot2 maintains a clean separation between:</p>
+
+<ul class = "build">
+<li>the <code>data</code> to be visualised</li>
+<li>the form of that visualisation (defined by the <code>grammar</code>)</li>
+<li>how the rendered graphic looks (defined by the <code>theme</code>)</li>
+</ul></li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -136,16 +160,412 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
 
       <slide class="" id="slide-5" style="background:;">
   <hgroup>
-    <h2>Setext Header</h2>
+    <h2>What ggplot2 doesn&#39;t do</h2>
   </hgroup>
   <article>
-    <p>This slide shows a Setext style header.</p>
+    <ul class = "build">
+<li>graphs are static, not interactive (e.g. brushing, zooming), but...
+
+<ul>
+<li>Hadley Wickham is rewriting ggplot2 in JavaScript, using the d3 library -&gt; interactive graphs</li>
+<li>the incremental, object-oriented nature of ggplot2 graphs make them ideal targets for interactive graph specification via Shiny or similar</li>
+</ul></li>
+<li>3D graphics (cf lattice package for R)<br></li>
+<li>exhaustive comparison of lattice vs ggplot2 capabilities and results in 12 parts at:
+
+<ul>
+<li><a href="http://learnr.wordpress.com/2009/06/28/ggplot2-version-of-figures-in-lattice-multivariate-data-visualization-with-r-part-1/">http://learnr.wordpress.com/2009/06/28/ggplot2-version-of-figures-in-lattice-multivariate-data-visualization-with-r-part-1/</a></li>
+<li>...through to...</li>
+<li><a href="http://learnr.wordpress.com/2009/08/18/ggplot2-version-of-figures-in-lattice-multivariate-data-visualization-with-r-part-13/">http://learnr.wordpress.com/2009/08/18/ggplot2-version-of-figures-in-lattice-multivariate-data-visualization-with-r-part-13/</a></li>
+</ul></li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
       <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>ggplot2 versus other R graphics systems</h2>
+  </hgroup>
+  <article>
+    <ul class = "build">
+<li><p>base graphics in R</p>
+
+<ul>
+<li>written by Ross Ihaka, University of Aukland, based on S graphics driver</li>
+<li>use a pen-on-paper model: you can only draw on top of the plot, you cannot modify or delete existing content</li>
+<li>no (user accessible) representation of the graphics, apart from their appearance on the screen</li>
+<li>includes both tools for drawing primitives and entire plots.</li>
+</ul></li>
+<li><p>grid graphics, a much richer system of graphical primitives, written in 2000 by Paul Murrell, also at University of Auckland</p>
+
+<ul>
+<li>grid <code>grobs</code> (graphical objects) can be represented independently of the plot and modified later</li>
+<li>viewports (each containing its own coordinate system) makes it easier to lay out complex graphics</li>
+<li>provides drawing primitives, but no tools for producing statistical graphics</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>ggplot2 versus other R graphics systems, cont&#39;d</h2>
+  </hgroup>
+  <article>
+    <ul class = "build">
+<li><p>lattice package, developed by Deepayan Sarkar, uses grid graphics to implement the trellis graphics system of Bill Cleveland (1985)</p>
+
+<ul>
+<li>easily produce conditioned plots</li>
+<li>some plotting details (e.g., legends) taken care of automatically</li>
+<li>but lacks a formal model, which can make it hard to extend (custom panel functions can be tricky to write)</li>
+</ul></li>
+<li><p>ggplot2, also developed at University of Auckland!</p>
+
+<ul>
+<li>also uses grid graphics for underpinnings</li>
+<li>formal grammar</li>
+<li>far more modular and object-oriented</li>
+<li>strong separation of data, grammar and themes</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Installing ggplot2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">install.packages(&quot;ggplot2&quot;)
+</code></pre>
+
+<p>Optionally, some extra goodies</p>
+
+<pre><code class="r">install.packages(&quot;gridExtra&quot;)
+install.packages(&quot;reshape2&quot;)
+</code></pre>
+
+<p>Don&#39;t forget to load the library</p>
+
+<pre><code class="r">library(ggplot2)
+library(gridExtra)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>qplot()</h2>
+  </hgroup>
+  <article>
+    <ul class = "build">
+<li>mimics the <code>plot()</code> function in base graphics</li>
+<li>don&#39;t use it
+
+<ul>
+<li>you miss out on all the good stuff in ggplot2</li>
+<li>is fairly limited, so you&#39;ll end up learning the real ggplot2 functions anyway</li>
+</ul></li>
+<li>by default creates a basic scatterplot
+
+<ul>
+<li>arguments: x variable, y variable, a data frame</li>
+</ul></li>
+<li>all data used by ggplot2 needs to be in a data frame (cf base and lattice graphics)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>qplot()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(carat, price, data = diamonds)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-4.png" alt="plot of chunk unnamed-chunk-4"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Functions can be used on variables</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>true throughout ggplot2</li>
+</ul>
+
+<pre><code class="r">qplot(log(carat), log(price), data = diamonds)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-5.png" alt="plot of chunk unnamed-chunk-5"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Additional arguments to modify qplot() output</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(carat, price, data = diamonds, colour = color)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-6.png" alt="plot of chunk unnamed-chunk-6"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>ggplot2 graphics are objects</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- qplot(carat, price, data = diamonds, colour = color)
+p2 &lt;- qplot(carat, price, data = diamonds, shape = cut)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-7.png" alt="plot of chunk unnamed-chunk-7"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>ggplot() - the real deal</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>takes two arguments: a data frame, and an aesthetic mapping</li>
+</ul>
+
+<pre><code class="r">p &lt;- ggplot(diamonds, aes(carat, price, colour = cut))
+</code></pre>
+
+<p>Hmmm, no output!</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Adding a geom</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(diamonds, aes(carat, price, colour = cut))
+p + geom_point()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-9.png" alt="plot of chunk unnamed-chunk-9"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>plots are R objects</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">summary(p)
+</code></pre>
+
+<pre><code>## data: carat, cut, color, clarity, depth, table, price, x, y, z
+##   [53940x10]
+## mapping:  x = carat, y = price, colour = cut
+## faceting: facet_null() 
+## -----------------------------------
+## geom_point: na.rm = FALSE 
+## stat_identity:  
+## position_identity: (width = NULL, height = NULL)
+</code></pre>
+
+<ul>
+<li>each element of the ggplot2 object can be modified or replaced by ggplot2 function</li>
+<li>or by your own custom functions</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>replacing data in a plot object</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>use the <code>%+%</code>` operator to replace datasets in a graphic object</li>
+</ul>
+
+<pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
+mtcars &lt;- transform(mtcars, mpg = mpg^2)
+p2 &lt;- p1 %+% mtcars
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-12.png" alt="plot of chunk unnamed-chunk-12"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>aesthetic mappings can be added to geoms as well</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = cyl), size = 5)
+p2 &lt;- p1 + geom_line() + geom_smooth()
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-13.png" alt="plot of chunk unnamed-chunk-13"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>override geom default statistical mappings</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(diamonds, aes(carat))
+p1 &lt;- p + geom_histogram()
+p2 &lt;- p + geom_histogram(aes(y = ..density..), binwidth = 0.1)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-14.png" alt="plot of chunk unnamed-chunk-14"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>mixing stats with geoms</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">d &lt;- ggplot(diamonds, aes(carat)) + xlim(0, 3)
+d1 &lt;- d + stat_bin(aes(ymax = ..count..), binwidth = 0.1, geom = &quot;area&quot;)
+d2 &lt;- d + stat_bin(aes(size = ..density..), binwidth = 0.1, geom = &quot;point&quot;)
+d3 &lt;- d + stat_bin(aes(y = 1, fill = ..count..), binwidth = 0.1, geom = &quot;tile&quot;)
+grid.arrange(d1, d2, d3, ncol = 3)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>mixing stats with geoms</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-16.png" alt="plot of chunk unnamed-chunk-16"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>other geoms: boxplots</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(mtcars, aes(factor(cyl), mpg))
+p + geom_boxplot()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-17.png" alt="plot of chunk unnamed-chunk-17"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>other geoms: boxplots + jittered points</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- p + geom_boxplot() + geom_jitter()
+p2 &lt;- p + geom_violin() + geom_jitter(height = 0)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-18.png" alt="plot of chunk unnamed-chunk-18"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>other geoms: boxplots + flipped co-ordinates</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p + geom_boxplot(outlier.colour = &quot;green&quot;, outlier.size = 5) + coord_flip()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-19.png" alt="plot of chunk unnamed-chunk-19"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>fill, dodge</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar()
+p2 &lt;- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar(position = &quot;dodge&quot;)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-20.png" alt="plot of chunk unnamed-chunk-20"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>different coordinate systems</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-21.png" alt="plot of chunk unnamed-chunk-21"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
   <hgroup>
     <h2>Tables</h2>
   </hgroup>
@@ -172,7 +592,7 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-7" style="background:#662c91;">
+      <slide class="" id="slide-28" style="background:#662c91;">
   <hgroup>
     <h2>Animated List, Ordered</h2>
   </hgroup>
@@ -189,7 +609,7 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-8" style="background:;">
+      <slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Animated List, Unordered</h2>
   </hgroup>
@@ -206,53 +626,7 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-9" style="background:;">
-  <hgroup>
-    <h2>Mathjax</h2>
-  </hgroup>
-  <article>
-    <p>\[
-\begin{aligned}
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\   \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-\nabla \cdot \vec{\mathbf{B}} & = 0 \end{aligned}
-\]
-<br />
-\[
-\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix}
-\mathbf{i} & \mathbf{j} & \mathbf{k} \\
-\frac{\partial X}{\partial u} &  \frac{\partial Y}{\partial u} & 0 \\
-\frac{\partial X}{\partial v} &  \frac{\partial Y}{\partial v} & 0
-\end{vmatrix}
-\]</p>
-
-<div class='source'>
-  Source: <a href='http://www.subtlepatterns.com'>Background from SubtlePatterns</a>
-</div>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-10" style="background:;">
-  <hgroup>
-    <h2>Layouts, Custom Metadata</h2>
-  </hgroup>
-  <article>
-    <p>This is a slide with a two column layout.</p>
-
-
-<div style='float:left;width:48%;' class='centered'>
-  
-</div>
-<div style='float:right;width:48%;'>
-  
-</div>
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-11" style="background:#EEE;">
+      <slide class="" id="slide-30" style="background:#EEE;">
   <hgroup>
     <h2>Background Color</h2>
   </hgroup>
@@ -263,7 +637,7 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-12" style="background:;">
+      <slide class="" id="slide-31" style="background:;">
   <hgroup>
     <h2>Background Image</h2>
   </hgroup>
@@ -274,140 +648,12 @@ ul.nav li{ font-size: 18px; line-height: 24px;}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-13" style="background:;">
+      <slide class="" id="slide-32" style="background:;">
   <hgroup>
-    <h2>Widgets: jQuery-Quiz</h2>
+    <h2>The End!</h2>
   </hgroup>
   <article>
     
-<div class="quiz-single well new">
-  <p>This is a multiple choice question</p>
-
-<ol>
-<li>Choice 1</li>
-<li><code>Choice 2</code></li>
-<li><em>Choice 3 (correct)</em></li>
-<li>Choice 4</li>
-</ol>
-
-
-  
-  <button class="quiz-submit btn btn-primary">Submit</button>
-  
-  <button class="quiz-show-answer btn btn-success">Show Answer</button>
-  <button class="quiz-clear">Clear</button>
-  
-  
-  <div class="quiz-hint">
-    
-  </div>
-  
-  <div class="quiz-explanation">
-    
-  </div>
-</div>
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-14" style="background:;">
-  <hgroup>
-    <h2>Widgets: Bootstrap</h2>
-  </hgroup>
-  <article>
-    <p><strong>Blocks</strong></p>
-
-<div class="alert alert-info">
- <p>This is an alert info block which should render in blue</p>
-</div>
-  
-
-<p><strong>Tooltips</strong></p>
-
-<p>This is to check out tooltips in bootstrap <a href="#" rel="tooltip" data-original-title="Default tooltip">you probably</a></p>
-
-<p><strong>Popover</strong></p>
-
-<p><a class="btn btn-large btn-danger" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title" id='example'>Click to toggle popover</a></p>
-
-<p><a id='example' data-content='Change directory doesn't actually change the directory. It changes the shell's idea of which directory we are in' data-original-title='Note'><pre>cd data</pre></a></p>
-
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-15" style="background:;">
-  <hgroup>
-    <h2>Highlighter: Highlight JS</h2>
-  </hgroup>
-  <article>
-    <p>We can make this function more robust by adding a simple error checking statement to prevent illegal parameters from generating invalid results.</p>
-
-<pre><code class="r echo = T">qpareto &lt;- function(p, scale, loc) {
-  if (( scale &lt;= 0) | ( loc &lt;= 0)) {
-    stop(&quot;&#39;qpareto&#39; parameters must be greater than zero.&quot;)
-  }
-  q &lt;- loc*(1 - p)^(-1/scale)
-  return(q)
-}
-</code></pre>
-
-<p>Entering a negative parameter now raises an exception, instead of an invalid result that could silently corrupt subsequent results.</p>
-
-<pre><code class="r echo = T, error = T">qpareto(0.4, 5, -1)
-</code></pre>
-
-<p>We could improve this further by checking to ensure that <code>p</code> is a valid probability.</p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-16" style="background:;">
-  <hgroup>
-    <h2>Check Chunk Execution</h2>
-  </hgroup>
-  <article>
-    <pre><code class="r scplot, dev = &#39;png&#39;, fig.width = 8, fig.height = 5, error = T">library(ggplot2); 
-library(ggthemes);
-qplot(wt, mpg, data = mtcars) +
-  theme_solarized()
-</code></pre>
-
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-17" style="background:;">
-  <hgroup>
-    
-  </hgroup>
-  <article>
-    <p><q class='shout'>This is a shout</q></p>
-
-<p>I am checking key, <span class = 'key'>key</span></p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="myslide" style="background:;">
-  <hgroup>
-    
-  </hgroup>
-  <article>
-    <script>
-$('#myslide').on('slideenter', function(){
-  $(this).find('article')
-    .append('<iframe src="http://bl.ocks.org/mbostock/raw/1256572/"></iframe>')
-});
-$('#myslide').on('slideleave', function(){
-  $(this).find('iframe').remove();
-});
-</script>
-
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -424,41 +670,10 @@ $('#myslide').on('slideleave', function(){
 </body>
 <!-- Grab CDN jQuery, fall back to local if offline -->
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
 <!-- Load Javascripts for Widgets -->
-<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      processEscapes: true
-    }
-  });
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script> -->
-<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
-</script>
-<script src='../../libraries/widgets/bootstrap/js/bootstrap.min.js'></script>
-<script>  
-$(function (){ 
-  $("#example").popover(); 
-  $("[rel='tooltip']").tooltip(); 
-});  
-</script>  
-<script src='../../libraries/widgets/quiz/js/jquery.quiz.js'></script>
-<script src='../../libraries/widgets/quiz/js/mustache.min.js'></script>
-<script type="text/javascript">
- $('.quiz').find('li:has(em)').addClass('quiz-answer')
- $('li.quiz-answer em').replaceWith(function(){
-   return $(this).contents()
- })
- $('.quiz').find('li').addClass('quiz-option')
- $.quiz();
-</script>
 <!-- LOAD HIGHLIGHTER JS FILES -->
-<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <!-- DONE LOADING HIGHLIGHTER JS FILES -->
 </html>
