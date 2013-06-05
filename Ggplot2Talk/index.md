@@ -10,15 +10,16 @@ framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
 widgets     : []            # {mathjax, quiz, bootstrap}
-mode        : selfcontained # {standalone, draft}
+mode        : selfcontained # {selfcontained, standalone, draft}
 
 --- 
 
 ## Source
 The majority of the material in this presentation is taken from the book:
-* Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009
-* DOI 10.1007/978-0-387-98141-3
-* ![Hadley Wickham](assets/img/hadley_wickham.jpg)
+- Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009
+- DOI 10.1007/978-0-387-98141-3
+- ![Hadley Wickham](assets/img/hadley_wickham.jpg)
+- ggplot2 documentation: http://docs.ggplot2.org/current/
 
 ---
 
@@ -52,8 +53,8 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 ## Grammar not pronounciation
 
    >- the Wilkinson grammar of graphics does not include finer points of display
-      - font size or background colour, are not specified by the grammar
-      - such attributes are analogus to pronunciation (or maybe typography?)
+      - font size or background colour are not specified by the grammar
+      - such attributes are analogous to pronounciation (or maybe typography?)
   
    >- ggplot2 specifies such attributes with a ```theming``` system
       - the default theme is very attractive, and thoughtfully designed
@@ -102,7 +103,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
     - some plotting details (e.g., legends) taken care of automatically
     - but lacks a formal model, which can make it hard to extend (custom panel functions can be tricky to write)
 
->- ggplot2, also developed at University of Auckland!
+>- ggplot (precursor to ggplot2), also developed at University of Auckland!
     - also uses grid graphics for underpinnings
     - formal grammar
     - far more modular and object-oriented
@@ -142,7 +143,7 @@ library(gridExtra)
 >- don't use it
     - you miss out on all the good stuff in ggplot2
     - is fairly limited, so you'll end up learning the real ggplot2 functions anyway
->- by default creates a basic scatterplot
+>- by default creates a basic scatter plot
     - arguments: x variable, y variable, a data frame
 >- all data used by ggplot2 needs to be in a data frame (cf base and lattice graphics)
 
@@ -203,6 +204,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 ```r
 p <- ggplot(diamonds, aes(carat, price, colour = cut))
+p
 ```
 
 
@@ -210,7 +212,7 @@ Hmmm, no output!
 
 ---
 
-## Adding a geom
+## Need to add a geom
 
 ```r
 p <- ggplot(diamonds, aes(carat, price, colour = cut))
@@ -422,7 +424,7 @@ geom_density | Display a smoothed density estimate | geom_density2d | Contours f
 geom_dotplot | Dot plot, beloved of ABS | geom_errorbar | Error/CI bars
 geom_errorbarh | Horizontal error bars | geom_freqpoly | Frequency polygon
 geom_hex | Hexagon bining | geom_histogram | Histogram
-geom_hline | Horizontal line | geom_jitter | Points, jittered to reduce overplotting
+geom_hline | Horizontal line | geom_jitter | Points, jittered to reduce over plotting
 geom_line | Connect observations, ordered by x value | geom_linerange | An interval represented by a vertical line
 geom_map | Polygons from a reference map | geom_path | Connect observations in original order
 
@@ -434,7 +436,7 @@ geom | description | geom | description
 ---------|----------|---------|----------
 geom_point | Scatterplot | geom_pointrange | An interval represented by a vertical line, with a point in the middle
 geom_polygon | Polygon, a filled path, can also draw maps | geom_quantile | Add quantile lines from a quantile regression
-geom_raster | High-performance rectangular tiling | geom_rect | Draw arbitray 2D rectangles
+geom_raster | High-performance rectangular tiling | geom_rect | Draw arbitrary 2D rectangles
 geom_ribbon | Ribbons, y range with continuous x values | geom_rug | Marginal rug plots
 geom_segment | Single line segments | geom_smooth | Add a smoothed conditional mean
 geom_step | Connect observations by stairs (KM plots) | geom_text | Textual annotations
@@ -536,7 +538,21 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 
 ## facets with margins
 
-![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+
+```r
+p <- ggplot(data = mpg2, aes(displ, hwy)) + geom_point(alpha = 0.25) + geom_smooth(method = "lm", 
+    se = F)
+p1 <- p + facet_grid(cyl ~ drv)
+p2 <- p + facet_grid(cyl ~ drv, margins = T)
+grid.arrange(p, p1, p2, ncol = 3)
+```
+
+
+---
+
+## facets with margins
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
 
 
 ---
@@ -550,7 +566,7 @@ p2 <- p + facet_wrap(~cyl, scales = "free")
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
 
 
 ---
@@ -565,7 +581,7 @@ p2 <- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
 
 
 ---
@@ -582,7 +598,7 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
     expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 ```
 
-![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
 
 ---
 
@@ -594,7 +610,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 p + annotate("text", x = 4, y = 25, label = "Some text")
 ```
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
 
 
 ---
@@ -606,7 +622,7 @@ p + annotate("text", x = 4, y = 25, label = "Some text")
 p + annotate("rect", xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 ```
 
-![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
 
 
 ---
@@ -619,7 +635,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point
 p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
 
 
 ---
@@ -635,7 +651,7 @@ p3 <- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
 
 
 ---
@@ -650,7 +666,7 @@ p3 <- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
+![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
 
 
 --- 
@@ -665,7 +681,7 @@ p3 <- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
 
 
 --- 

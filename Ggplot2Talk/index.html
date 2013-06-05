@@ -66,6 +66,7 @@
 <li>Hadley Wickham. <em>ggplot2: Elegant Graphics for Data Analysis</em> Springer:2009</li>
 <li>DOI 10.1007/978-0-387-98141-3</li>
 <li><img src="assets/img/hadley_wickham.jpg" alt="Hadley Wickham"></li>
+<li>ggplot2 documentation: <a href="http://docs.ggplot2.org/current/">http://docs.ggplot2.org/current/</a></li>
 </ul>
 
   </article>
@@ -135,8 +136,8 @@
 <li><p>the Wilkinson grammar of graphics does not include finer points of display</p>
 
 <ul>
-<li>font size or background colour, are not specified by the grammar</li>
-<li>such attributes are analogus to pronunciation (or maybe typography?)</li>
+<li>font size or background colour are not specified by the grammar</li>
+<li>such attributes are analogous to pronounciation (or maybe typography?)</li>
 </ul></li>
 <li><p>ggplot2 specifies such attributes with a <code>theming</code> system</p>
 
@@ -224,7 +225,7 @@
 <li>some plotting details (e.g., legends) taken care of automatically</li>
 <li>but lacks a formal model, which can make it hard to extend (custom panel functions can be tricky to write)</li>
 </ul></li>
-<li><p>ggplot2, also developed at University of Auckland!</p>
+<li><p>ggplot (precursor to ggplot2), also developed at University of Auckland!</p>
 
 <ul>
 <li>also uses grid graphics for underpinnings</li>
@@ -275,7 +276,7 @@ library(gridExtra)
 <li>you miss out on all the good stuff in ggplot2</li>
 <li>is fairly limited, so you&#39;ll end up learning the real ggplot2 functions anyway</li>
 </ul></li>
-<li>by default creates a basic scatterplot
+<li>by default creates a basic scatter plot
 
 <ul>
 <li>arguments: x variable, y variable, a data frame</li>
@@ -359,6 +360,7 @@ grid.arrange(p1, p2, ncol = 2)
 </ul>
 
 <pre><code class="r">p &lt;- ggplot(diamonds, aes(carat, price, colour = cut))
+p
 </code></pre>
 
 <p>Hmmm, no output!</p>
@@ -369,7 +371,7 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-15" style="background:;">
   <hgroup>
-    <h2>Adding a geom</h2>
+    <h2>Need to add a geom</h2>
   </hgroup>
   <article>
     <pre><code class="r">p &lt;- ggplot(diamonds, aes(carat, price, colour = cut))
@@ -666,7 +668,7 @@ grid.arrange(p1, p2, ncol = 2)
 <td>geom_hline</td>
 <td>Horizontal line</td>
 <td>geom_jitter</td>
-<td>Points, jittered to reduce overplotting</td>
+<td>Points, jittered to reduce over plotting</td>
 </tr>
 <tr>
 <td>geom_line</td>
@@ -715,7 +717,7 @@ grid.arrange(p1, p2, ncol = 2)
 <td>geom_raster</td>
 <td>High-performance rectangular tiling</td>
 <td>geom_rect</td>
-<td>Draw arbitray 2D rectangles</td>
+<td>Draw arbitrary 2D rectangles</td>
 </tr>
 <tr>
 <td>geom_ribbon</td>
@@ -874,7 +876,12 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
     <h2>facets with margins</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-31.png" alt="plot of chunk unnamed-chunk-31"> </p>
+    <pre><code class="r">p &lt;- ggplot(data = mpg2, aes(displ, hwy)) + geom_point(alpha = 0.25) + geom_smooth(method = &quot;lm&quot;, 
+    se = F)
+p1 &lt;- p + facet_grid(cyl ~ drv)
+p2 &lt;- p + facet_grid(cyl ~ drv, margins = T)
+grid.arrange(p, p1, p2, ncol = 3)
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -882,16 +889,10 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 
       <slide class="" id="slide-39" style="background:;">
   <hgroup>
-    <h2>facets with free scales</h2>
+    <h2>facets with margins</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p &lt;- ggplot(data = mpg, aes(cty, hwy)) + geom_point(alpha = 0.25)
-p1 &lt;- p + facet_wrap(~cyl)
-p2 &lt;- p + facet_wrap(~cyl, scales = &quot;free&quot;)
-grid.arrange(p1, p2, ncol = 2)
-</code></pre>
-
-<p><img src="figure/unnamed-chunk-32.png" alt="plot of chunk unnamed-chunk-32"> </p>
+    <p><img src="figure/unnamed-chunk-32.png" alt="plot of chunk unnamed-chunk-32"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -899,12 +900,12 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-40" style="background:;">
   <hgroup>
-    <h2>parsed labels</h2>
+    <h2>facets with free scales</h2>
   </hgroup>
   <article>
-    <pre><code class="r">mtcars$cyl2 &lt;- factor(mtcars$cyl, labels = c(&quot;alpha&quot;, &quot;beta&quot;, &quot;gamma&quot;))
-p1 &lt;- ggplot(data = mtcars, aes(wt, mpg)) + geom_point() + facet_grid(. ~ cyl2)
-p2 &lt;- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
+    <pre><code class="r">p &lt;- ggplot(data = mpg, aes(cty, hwy)) + geom_point(alpha = 0.25)
+p1 &lt;- p + facet_wrap(~cyl)
+p2 &lt;- p + facet_wrap(~cyl, scales = &quot;free&quot;)
 grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
@@ -916,15 +917,16 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-41" style="background:;">
   <hgroup>
-    <h2>facetted maps</h2>
+    <h2>parsed labels</h2>
   </hgroup>
   <article>
-    <pre><code class="r">crimes.melted &lt;- melt(crimes, id = 1)
-ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = states_map) + 
-    expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
+    <pre><code class="r">mtcars$cyl2 &lt;- factor(mtcars$cyl, labels = c(&quot;alpha&quot;, &quot;beta&quot;, &quot;gamma&quot;))
+p1 &lt;- ggplot(data = mtcars, aes(wt, mpg)) + geom_point() + facet_grid(. ~ cyl2)
+p2 &lt;- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
+grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-35.png" alt="plot of chunk unnamed-chunk-35"> </p>
+<p><img src="figure/unnamed-chunk-34.png" alt="plot of chunk unnamed-chunk-34"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -932,11 +934,12 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
 
       <slide class="" id="slide-42" style="background:;">
   <hgroup>
-    <h2>annotations</h2>
+    <h2>facetted maps</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
+    <pre><code class="r">crimes.melted &lt;- melt(crimes, id = 1)
+ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = states_map) + 
+    expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-36.png" alt="plot of chunk unnamed-chunk-36"> </p>
@@ -950,7 +953,8 @@ p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
     <h2>annotations</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p + annotate(&quot;rect&quot;, xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
+    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-37.png" alt="plot of chunk unnamed-chunk-37"> </p>
@@ -961,11 +965,10 @@ p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
 
       <slide class="" id="slide-44" style="background:;">
   <hgroup>
-    <h2>data-driven annotations</h2>
+    <h2>annotations</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point()
-p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
+    <pre><code class="r">p + annotate(&quot;rect&quot;, xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-38.png" alt="plot of chunk unnamed-chunk-38"> </p>
@@ -975,6 +978,21 @@ p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 </slide>
 
       <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>data-driven annotations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point()
+p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-39.png" alt="plot of chunk unnamed-chunk-39"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
   <hgroup>
     <h2>colour palettes</h2>
   </hgroup>
@@ -986,13 +1004,13 @@ p3 &lt;- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-39.png" alt="plot of chunk unnamed-chunk-39"> </p>
+<p><img src="figure/unnamed-chunk-40.png" alt="plot of chunk unnamed-chunk-40"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-46" style="background:;">
+      <slide class="" id="slide-47" style="background:;">
   <hgroup>
     <h2>themes</h2>
   </hgroup>
@@ -1003,13 +1021,13 @@ p3 &lt;- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-40.png" alt="plot of chunk unnamed-chunk-40"> </p>
+<p><img src="figure/unnamed-chunk-41.png" alt="plot of chunk unnamed-chunk-41"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-47" style="background:;">
+      <slide class="" id="slide-48" style="background:;">
   <hgroup>
     <h2>more themes</h2>
   </hgroup>
@@ -1020,13 +1038,13 @@ p3 &lt;- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-41.png" alt="plot of chunk unnamed-chunk-41"> </p>
+<p><img src="figure/unnamed-chunk-42.png" alt="plot of chunk unnamed-chunk-42"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-48" style="background:;">
+      <slide class="" id="slide-49" style="background:;">
   <hgroup>
     <h2>Summary</h2>
   </hgroup>
@@ -1046,7 +1064,7 @@ grid.arrange(p1, p2, p3, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-49" style="background:;">
+      <slide class="" id="slide-50" style="background:;">
   <hgroup>
     <h2>Enough!</h2>
   </hgroup>
