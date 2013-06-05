@@ -141,7 +141,7 @@
 <li><p>ggplot2 specifies such attributes with a <code>theming</code> system</p>
 
 <ul>
-<li>the default theme is very attractive, and thoughtfully designs</li>
+<li>the default theme is very attractive, and thoughtfully designed</li>
 <li>alternative themes come with the package</li>
 <li>easy to tweak themes or design your own</li>
 </ul></li>
@@ -419,8 +419,8 @@ p + geom_point()
 </ul>
 
 <pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
-mtcars &lt;- transform(mtcars, mpg = mpg^2)
-p2 &lt;- p1 %+% mtcars
+mtcars2 &lt;- transform(mtcars, mpg = mpg^2)
+p2 &lt;- p1 %+% mtcars2
 grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
@@ -537,15 +537,16 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-25" style="background:;">
   <hgroup>
-    <h2>fill, dodge</h2>
+    <h2>fill, dodge, binhex</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar()
-p2 &lt;- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar(position = &quot;dodge&quot;)
-grid.arrange(p1, p2, ncol = 2)
+    <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 &lt;- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar(position = &quot;dodge&quot;)
+p3 &lt;- ggplot(diamonds, aes(x = carat, y = price)) + geom_hex()
+grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-20.png" alt="plot of chunk unnamed-chunk-20"> </p>
+<p><img src="figure/unnamed-chunk-21.png" alt="plot of chunk unnamed-chunk-21"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -559,7 +560,7 @@ grid.arrange(p1, p2, ncol = 2)
     <pre><code class="r">ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-21.png" alt="plot of chunk unnamed-chunk-21"> </p>
+<p><img src="figure/unnamed-chunk-22.png" alt="plot of chunk unnamed-chunk-22"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -567,43 +568,34 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-27" style="background:;">
   <hgroup>
-    <h2>Tables</h2>
+    <h2>maps</h2>
   </hgroup>
   <article>
-    <p>Mardown tables contain <code>---</code> and should not be interpreted as separator.</p>
+    <pre><code class="r">crimes &lt;- data.frame(state = tolower(rownames(USArrests)), USArrests)
+require(maps)
+states_map &lt;- map_data(&quot;state&quot;)
+ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Assault), map = states_map) + 
+    expand_limits(x = states_map$long, y = states_map$lat)
+</code></pre>
 
-<table><thead>
-<tr>
-<th>Column X</th>
-<th>Column Y</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Row 1</td>
-<td>Row 1</td>
-</tr>
-<tr>
-<td>Row 2</td>
-<td>Row 2</td>
-</tr>
-</tbody></table>
+<p><img src="figure/unnamed-chunk-23.png" alt="plot of chunk unnamed-chunk-23"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-28" style="background:#662c91;">
+      <slide class="" id="slide-28" style="background:;">
   <hgroup>
-    <h2>Animated List, Ordered</h2>
+    <h2>maps with cartographic projections</h2>
   </hgroup>
   <article>
-    <p>This list should be animated</p>
+    <pre><code class="r">p &lt;- last_plot()
+p1 &lt;- p + coord_map()  # defaults to Mercator projection
+p2 &lt;- p + coord_map(&quot;conic&quot;, lat0 = 20)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
 
-<ol class = "build">
-<li>Point 1</li>
-<li>Point 2</li>
-<li>Point 3</li>
-</ol>
+<p><img src="figure/unnamed-chunk-24.png" alt="plot of chunk unnamed-chunk-24"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -611,27 +603,151 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-29" style="background:;">
   <hgroup>
-    <h2>Animated List, Unordered</h2>
+    <h2>predefined geoms</h2>
   </hgroup>
   <article>
-    <p>This list should be animated</p>
-
-<ul class = "build">
-<li>Point 1</li>
-<li>Point 2</li>
-<li>Point 3</li>
-</ul>
+    <table><thead>
+<tr>
+<th>geom</th>
+<th>description</th>
+<th>geom</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>geom_abline</td>
+<td>Line specified by a slope</td>
+<td>geom_area</td>
+<td>Area plot</td>
+</tr>
+<tr>
+<td>geom_bar</td>
+<td>Bar charts with bases on x-axis</td>
+<td>geom_bin2d</td>
+<td>Heat map of 2D binned values</td>
+</tr>
+<tr>
+<td>geom_blank</td>
+<td>Draws a blank</td>
+<td>geom_boxplot</td>
+<td>Box and whiskers plots</td>
+</tr>
+<tr>
+<td>geom_contour</td>
+<td>Display contours of a 3D surface in 2D</td>
+<td>geom_crossbar</td>
+<td>Hollow bar with middle indicated by horizontal line</td>
+</tr>
+<tr>
+<td>geom_density</td>
+<td>Display a smoothed density estimate</td>
+<td>geom_density2d</td>
+<td>Contours from a 2D density estimate</td>
+</tr>
+<tr>
+<td>geom_dotplot</td>
+<td>Dot plot, beloved of ABS</td>
+<td>geom_errorbar</td>
+<td>Error/CI bars</td>
+</tr>
+<tr>
+<td>geom_errorbarh</td>
+<td>Horizontal error bars</td>
+<td>geom_freqpoly</td>
+<td>Frequency polygon</td>
+</tr>
+<tr>
+<td>geom_hex</td>
+<td>Hexagon bining</td>
+<td>geom_histogram</td>
+<td>Histogram</td>
+</tr>
+<tr>
+<td>geom_hline</td>
+<td>Horizontal line</td>
+<td>geom_jitter</td>
+<td>Points, jittered to reduce overplotting</td>
+</tr>
+<tr>
+<td>geom_line</td>
+<td>Connect observations, ordered by x value</td>
+<td>geom_linerange</td>
+<td>An interval represented by a vertical line</td>
+</tr>
+<tr>
+<td>geom_map</td>
+<td>Polygons from a reference map</td>
+<td>geom_path</td>
+<td>Connect observations in original order</td>
+</tr>
+</tbody></table>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-30" style="background:#EEE;">
+      <slide class="" id="slide-30" style="background:;">
   <hgroup>
-    <h2>Background Color</h2>
+    <h2>predefined geoms, cont&#39;d</h2>
   </hgroup>
   <article>
-    <p>This slide should have a subtle gray background.</p>
+    <table><thead>
+<tr>
+<th>geom</th>
+<th>description</th>
+<th>geom</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>geom_point</td>
+<td>Scatterplot</td>
+<td>geom_pointrange</td>
+<td>An interval represented by a vertical line, with a point in the middle</td>
+</tr>
+<tr>
+<td>geom_polygon</td>
+<td>Polygon, a filled path, can also draw maps</td>
+<td>geom_quantile</td>
+<td>Add quantile lines from a quantile regression</td>
+</tr>
+<tr>
+<td>geom_raster</td>
+<td>High-performance rectangular tiling</td>
+<td>geom_rect</td>
+<td>Draw arbitray 2D rectangles</td>
+</tr>
+<tr>
+<td>geom_ribbon</td>
+<td>Ribbons, y range with continuous x values</td>
+<td>geom_rug</td>
+<td>Marginal rug plots</td>
+</tr>
+<tr>
+<td>geom_segment</td>
+<td>Single line segments</td>
+<td>geom_smooth</td>
+<td>Add a smoothed conditional mean</td>
+</tr>
+<tr>
+<td>geom_step</td>
+<td>Connect observations by stairs (KM plots)</td>
+<td>geom_text</td>
+<td>Textual annotations</td>
+</tr>
+<tr>
+<td>geom_tile</td>
+<td>Tile plane with rectangles</td>
+<td>geom_violin</td>
+<td>Violin plot</td>
+</tr>
+<tr>
+<td>geom_vline</td>
+<td>Vertical line</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 
   </article>
   <!-- Presenter Notes -->
@@ -639,10 +755,21 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-31" style="background:;">
   <hgroup>
-    <h2>Background Image</h2>
+    <h2>rasters</h2>
   </hgroup>
   <article>
-    <p>This slide should have a background image.</p>
+    <pre><code class="r"># Generate data
+pp &lt;- function(n, r = 4) {
+    x &lt;- seq(-r * pi, r * pi, len = n)
+    df &lt;- expand.grid(x = x, y = x)
+    df$r &lt;- sqrt(df$x^2 + df$y^2)
+    df$z &lt;- cos(df$r^2) * exp(-df$r/6)
+    df
+}
+p1 &lt;- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
+p2 &lt;- p1 %+% pp(200)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -650,7 +777,278 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-32" style="background:;">
   <hgroup>
-    <h2>The End!</h2>
+    <h2>rasters</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-26.png" alt="plot of chunk unnamed-chunk-26"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>facets</h2>
+  </hgroup>
+  <article>
+    <ul class = "build">
+<li><p>facet_grid()</p>
+
+<ul>
+<li>produces a 2D grid of panels defined by variables which form the rows and columns</li>
+<li>layout like coplot in base graphics</li>
+</ul></li>
+<li><p>facet_wrap()</p>
+
+<ul>
+<li>produces a 1D ribbon of panels that is wrapped into 2D</li>
+<li>layout like lattice graphics</li>
+</ul></li>
+<li><p>facetting uses a formula interface, like lattice</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>no facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mpg2 &lt;- subset(mpg, cyl != 5 &amp; drv %in% c(&quot;4&quot;, &quot;f&quot;))
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-27.png" alt="plot of chunk unnamed-chunk-27"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-28.png" alt="plot of chunk unnamed-chunk-28"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~ 
+    .)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-29.png" alt="plot of chunk unnamed-chunk-29"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-30.png" alt="plot of chunk unnamed-chunk-30"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>facets with margins</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-31.png" alt="plot of chunk unnamed-chunk-31"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>facets with free scales</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(data = mpg, aes(cty, hwy)) + geom_point(alpha = 0.25)
+p1 &lt;- p + facet_wrap(~cyl)
+p2 &lt;- p + facet_wrap(~cyl, scales = &quot;free&quot;)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-32.png" alt="plot of chunk unnamed-chunk-32"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>parsed labels</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mtcars$cyl2 &lt;- factor(mtcars$cyl, labels = c(&quot;alpha&quot;, &quot;beta&quot;, &quot;gamma&quot;))
+p1 &lt;- ggplot(data = mtcars, aes(wt, mpg)) + geom_point() + facet_grid(. ~ cyl2)
+p2 &lt;- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-33.png" alt="plot of chunk unnamed-chunk-33"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>facetted maps</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">crimes.melted &lt;- melt(crimes, id = 1)
+ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = states_map) + 
+    expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-35.png" alt="plot of chunk unnamed-chunk-35"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>annotations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-36.png" alt="plot of chunk unnamed-chunk-36"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>annotations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p + annotate(&quot;rect&quot;, xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-37.png" alt="plot of chunk unnamed-chunk-37"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>data-driven annotations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point()
+p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-38.png" alt="plot of chunk unnamed-chunk-38"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>colour palettes</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(diamonds[sample(nrow(diamonds), 1000), ], aes(x = carat, y = price, 
+    colour = clarity)) + geom_point()
+p2 &lt;- p1 + scale_colour_brewer()
+p3 &lt;- p1 + scale_colour_grey()
+grid.arrange(p1, p2, p3, ncol = 3)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-39.png" alt="plot of chunk unnamed-chunk-39"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>themes</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 &lt;- p1 + theme_bw()
+p3 &lt;- p2 + scale_fill_grey()
+grid.arrange(p1, p2, p3, ncol = 3)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-40.png" alt="plot of chunk unnamed-chunk-40"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>more themes</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 &lt;- p1 + theme_classic()
+p3 &lt;- p1 + theme_minimal()
+grid.arrange(p1, p2, p3, ncol = 3)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-41.png" alt="plot of chunk unnamed-chunk-41"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article>
+    <ul class = "build">
+<li>ggplot2 a viable alternative to base R graphics and the lattice package</li>
+<li>still some gaps</li>
+<li>very sensible defaults: graphs look nice without fiddling</li>
+<li>very customisable, graphs are just R objects</li>
+<li>built on a principled grammar of graphics</li>
+<li>excellent web site, links to the book, tutorials: <a href="http://ggplot2.org">http://ggplot2.org</a></li>
+<li>really excellent web documentation with lots of examples: <a href="http://docs.ggplot2.org/current/">http://docs.ggplot2.org/current/</a></li>
+<li>dedicated mailing list, but lots of support and examples on StackOverflow etc</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Enough!</h2>
   </hgroup>
   <article>
     

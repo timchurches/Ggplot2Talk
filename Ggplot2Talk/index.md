@@ -56,7 +56,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
       - such attributes are analogus to pronunciation (or maybe typography?)
   
    >- ggplot2 specifies such attributes with a ```theming``` system
-      - the default theme is very attractive, and thoughtfully designs
+      - the default theme is very attractive, and thoughtfully designed
       - alternative themes come with the package
       - easy to tweak themes or design your own
 
@@ -254,8 +254,8 @@ summary(p)
 
 ```r
 p1 <- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
-mtcars <- transform(mtcars, mpg = mpg^2)
-p2 <- p1 %+% mtcars
+mtcars2 <- transform(mtcars, mpg = mpg^2)
+p2 <- p1 %+% mtcars2
 grid.arrange(p1, p2, ncol = 2)
 ```
 
@@ -351,15 +351,19 @@ p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 
 ---
 
-## fill, dodge
+## fill, dodge, binhex
+
+
+
 
 ```r
-p1 <- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar()
-p2 <- ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar(position = "dodge")
-grid.arrange(p1, p2, ncol = 2)
+p1 <- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 <- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar(position = "dodge")
+p3 <- ggplot(diamonds, aes(x = carat, y = price)) + geom_hex()
+grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
 
 
 --- 
@@ -370,55 +374,314 @@ grid.arrange(p1, p2, ncol = 2)
 ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22.png) 
+
+
+---
+
+## maps
+
+
+```r
+crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
+require(maps)
+states_map <- map_data("state")
+ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Assault), map = states_map) + 
+    expand_limits(x = states_map$long, y = states_map$lat)
+```
+
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
 
 
 ---
   
-## Tables
-  
-Mardown tables contain `---` and should not be interpreted as separator.
-
-Column X | Column Y
----------|----------
-Row 1    | Row 1
-Row 2    | Row 2
+## maps with cartographic projections
 
 
---- bg:#662c91
-  
-## Animated List, Ordered
-  
-This list should be animated
+```r
+p <- last_plot()
+p1 <- p + coord_map()  # defaults to Mercator projection
+p2 <- p + coord_map("conic", lat0 = 20)
+grid.arrange(p1, p2, ncol = 2)
+```
 
-> 1. Point 1
-> 2. Point 2
-> 3. Point 3
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
+
 
 ---
   
-## Animated List, Unordered
+## predefined geoms
+
+geom | description | geom | description
+---------|----------|---------|----------
+geom_abline | Line specified by a slope | geom_area | Area plot
+geom_bar | Bar charts with bases on x-axis | geom_bin2d | Heat map of 2D binned values
+geom_blank | Draws a blank | geom_boxplot | Box and whiskers plots
+geom_contour | Display contours of a 3D surface in 2D | geom_crossbar | Hollow bar with middle indicated by horizontal line
+geom_density | Display a smoothed density estimate | geom_density2d | Contours from a 2D density estimate
+geom_dotplot | Dot plot, beloved of ABS | geom_errorbar | Error/CI bars
+geom_errorbarh | Horizontal error bars | geom_freqpoly | Frequency polygon
+geom_hex | Hexagon bining | geom_histogram | Histogram
+geom_hline | Horizontal line | geom_jitter | Points, jittered to reduce overplotting
+geom_line | Connect observations, ordered by x value | geom_linerange | An interval represented by a vertical line
+geom_map | Polygons from a reference map | geom_path | Connect observations in original order
+
+---
   
-This list should be animated
+## predefined geoms, cont'd
 
-> - Point 1
-> - Point 2
-> - Point 3
-
---- bg:#EEE
-  
-## Background Color ##
-  
-This slide should have a subtle gray background.
-
---- bg:
-
-## Background Image ##
-
-This slide should have a background image.
+geom | description | geom | description
+---------|----------|---------|----------
+geom_point | Scatterplot | geom_pointrange | An interval represented by a vertical line, with a point in the middle
+geom_polygon | Polygon, a filled path, can also draw maps | geom_quantile | Add quantile lines from a quantile regression
+geom_raster | High-performance rectangular tiling | geom_rect | Draw arbitray 2D rectangles
+geom_ribbon | Ribbons, y range with continuous x values | geom_rug | Marginal rug plots
+geom_segment | Single line segments | geom_smooth | Add a smoothed conditional mean
+geom_step | Connect observations by stairs (KM plots) | geom_text | Textual annotations
+geom_tile | Tile plane with rectangles | geom_violin | Violin plot
+geom_vline | Vertical line | |
 
 ---
 
-## The End!
+## rasters
 
+
+```r
+# Generate data
+pp <- function(n, r = 4) {
+    x <- seq(-r * pi, r * pi, len = n)
+    df <- expand.grid(x = x, y = x)
+    df$r <- sqrt(df$x^2 + df$y^2)
+    df$z <- cos(df$r^2) * exp(-df$r/6)
+    df
+}
+p1 <- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
+p2 <- p1 %+% pp(200)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+---
+
+## rasters
+
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
+
+
+---
+
+## facets
+
+>- facet_grid()
+      - produces a 2D grid of panels defined by variables which form the rows and columns
+      - layout like coplot in base graphics
+
+>- facet_wrap()
+      - produces a 1D ribbon of panels that is wrapped into 2D
+      - layout like lattice graphics
+
+>- facetting uses a formula interface, like lattice
+
+---
+
+## no facets
+
+
+```r
+mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f"))
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
+```
+
+![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+
+
+---
+
+## facets
+
+
+```r
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
+```
+
+![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
+
+
+---
+
+## facets
+
+
+```r
+ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~ 
+    .)
+```
+
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
+
+
+---
+
+## facets
+
+
+```r
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
+```
+
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
+
+
+---
+
+## facets with margins
+
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+
+
+---
+
+## facets with free scales
+
+```r
+p <- ggplot(data = mpg, aes(cty, hwy)) + geom_point(alpha = 0.25)
+p1 <- p + facet_wrap(~cyl)
+p2 <- p + facet_wrap(~cyl, scales = "free")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
+
+
+---
+
+## parsed labels
+
+
+```r
+mtcars$cyl2 <- factor(mtcars$cyl, labels = c("alpha", "beta", "gamma"))
+p1 <- ggplot(data = mtcars, aes(wt, mpg)) + geom_point() + facet_grid(. ~ cyl2)
+p2 <- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+
+
+---
+
+## facetted maps
+
+
+
+
+
+```r
+crimes.melted <- melt(crimes, id = 1)
+ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = states_map) + 
+    expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+
+---
+
+## annotations
+
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotate("text", x = 4, y = 25, label = "Some text")
+```
+
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+
+
+---
+
+## annotations
+
+
+```r
+p + annotate("rect", xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
+```
+
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+
+
+---
+
+## data-driven annotations
+
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point()
+p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
+```
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+
+
+---
+
+## colour palettes
+
+
+```r
+p1 <- ggplot(diamonds[sample(nrow(diamonds), 1000), ], aes(x = carat, y = price, 
+    colour = clarity)) + geom_point()
+p2 <- p1 + scale_colour_brewer()
+p3 <- p1 + scale_colour_grey()
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
+
+
+---
+
+## themes
+
+
+```r
+p1 <- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 <- p1 + theme_bw()
+p3 <- p2 + scale_fill_grey()
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
+
+
+--- 
+
+## more themes
+
+
+```r
+p1 <- ggplot(diamonds, aes(x = clarity, fill = cut)) + geom_bar()
+p2 <- p1 + theme_classic()
+p3 <- p1 + theme_minimal()
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
+
+
+--- 
+
+## Summary
+
+>- ggplot2 a viable alternative to base R graphics and the lattice package
+>- still some gaps
+>- very sensible defaults: graphs look nice without fiddling
+>- very customisable, graphs are just R objects
+>- built on a principled grammar of graphics
+>- excellent web site, links to the book, tutorials: http://ggplot2.org
+>- really excellent web documentation with lots of examples: http://docs.ggplot2.org/current/
+>- dedicated mailing list, but lots of support and examples on StackOverflow etc
+
+---
+
+## Enough!
 
