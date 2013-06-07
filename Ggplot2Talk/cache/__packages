@@ -1,11 +1,11 @@
-reshape2
-mapproj
-maps
+ggplot2
+gridExtra
 hexbin
 lattice
-gridExtra
 grid
-ggplot2
+mapproj
+maps
+reshape2
 knitr
 stats
 graphics
