@@ -9,7 +9,7 @@ license     : by-nc-sa
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {selfcontained, standalone, draft}
 
 --- 
@@ -332,8 +332,9 @@ p + geom_boxplot()
 
 ```r
 p1 <- p + geom_boxplot() + geom_jitter()
-p2 <- p + geom_violin() + geom_jitter(height = 0)
-grid.arrange(p1, p2, ncol = 2)
+p2 <- p + geom_violin() + geom_jitter()
+p3 <- p1 + geom_violin(alpha = 0.25, colour = "pink")
+grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 ![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 

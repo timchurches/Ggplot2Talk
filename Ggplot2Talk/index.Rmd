@@ -9,7 +9,7 @@ license     : by-nc-sa
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {selfcontained, standalone, draft}
 
 --- 
@@ -277,10 +277,11 @@ p + geom_boxplot()
 
 ## other geoms: boxplots + jittered points
 
-```{r fig.width=14, fig.height=5, message=FALSE, warning=FALSE}
+```{r fig.width=14, fig.height=4.5, message=FALSE, warning=FALSE}
 p1 <- p + geom_boxplot() + geom_jitter()
-p2 <- p + geom_violin() + geom_jitter(height = 0)
-grid.arrange(p1,p2,ncol=2)
+p2 <- p + geom_violin()+ geom_jitter() 
+p3 <- p1 + geom_violin(alpha=0.25, colour="pink")
+grid.arrange(p1,p2,p3,ncol=3)
 ```
 
 ---
