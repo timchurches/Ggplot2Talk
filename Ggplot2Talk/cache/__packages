@@ -1,0 +1,16 @@
+reshape2
+mapproj
+maps
+hexbin
+lattice
+gridExtra
+grid
+ggplot2
+knitr
+stats
+graphics
+grDevices
+utils
+datasets
+methods
+base

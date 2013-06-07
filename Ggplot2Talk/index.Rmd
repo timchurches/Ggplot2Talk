@@ -21,6 +21,10 @@ The majority of the material in this presentation is taken from the book:
 - ![Hadley Wickham](assets/img/hadley_wickham.jpg)
 - ggplot2 documentation: http://docs.ggplot2.org/current/
 
+```{r echo=FALSE}
+opts_chunk$set(cache=TRUE)
+```
+
 ---
 
 ## A grammar of graphics
@@ -140,6 +144,7 @@ library(gridExtra)
 >- by default creates a basic scatter plot
     - arguments: x variable, y variable, a data frame
 >- all data used by ggplot2 needs to be in a data frame (cf base and lattice graphics)
+    - but can use more than one data frame
 
 ---
 
@@ -262,6 +267,15 @@ d1 <- d + stat_bin(aes(ymax = ..count..), binwidth = 0.1, geom="area")
 d2 <- d + stat_bin(aes(size = ..density..), binwidth = 0.1, geom="point")
 d3 <- d  + stat_bin(aes(y = 1, fill = ..count..), binwidth = 0.1, geom = "tile")
 grid.arrange(d1,d2,d3,ncol=3)
+```
+
+---
+
+## mixing stats with geoms
+```{r fig.width=8, fig.height=6, echo=TRUE, message=FALSE, warning=FALSE}
+x <- data.frame(x=rnorm(1000))
+p <- ggplot(x, aes(x)) + geom_density()
+p + stat_function(fun = dnorm, colour = "red")
 ```
 
 ---

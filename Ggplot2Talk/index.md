@@ -21,6 +21,9 @@ The majority of the material in this presentation is taken from the book:
 - ![Hadley Wickham](assets/img/hadley_wickham.jpg)
 - ggplot2 documentation: http://docs.ggplot2.org/current/
 
+
+
+
 ---
 
 ## A grammar of graphics
@@ -146,6 +149,7 @@ library(gridExtra)
 >- by default creates a basic scatter plot
     - arguments: x variable, y variable, a data frame
 >- all data used by ggplot2 needs to be in a data frame (cf base and lattice graphics)
+    - but can use more than one data frame
 
 ---
 
@@ -156,7 +160,7 @@ library(gridExtra)
 qplot(carat, price, data = diamonds)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 
 ---
@@ -170,7 +174,7 @@ qplot(carat, price, data = diamonds)
 qplot(log(carat), log(price), data = diamonds)
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 
 ---
@@ -181,7 +185,7 @@ qplot(log(carat), log(price), data = diamonds)
 qplot(carat, price, data = diamonds, colour = color)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 
 ---
@@ -194,7 +198,7 @@ p2 <- qplot(carat, price, data = diamonds, shape = cut)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 
 ---
@@ -219,7 +223,7 @@ p <- ggplot(diamonds, aes(carat, price, colour = cut))
 p + geom_point()
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
 
 ---
@@ -261,7 +265,7 @@ p2 <- p1 %+% mtcars2
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 
 ---
@@ -275,7 +279,7 @@ p2 <- p1 + geom_line() + geom_smooth()
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
 
 
 ---
@@ -290,7 +294,7 @@ p2 <- p + geom_histogram(aes(y = ..density..), binwidth = 0.1)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
 
 
 ---
@@ -309,7 +313,20 @@ grid.arrange(d1, d2, d3, ncol = 3)
 ---
 
 ## mixing stats with geoms
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+
+---
+
+## mixing stats with geoms
+
+```r
+x <- data.frame(x = rnorm(1000))
+p <- ggplot(x, aes(x)) + geom_density()
+p + stat_function(fun = dnorm, colour = "red")
+```
+
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
 
 
 ---
@@ -322,7 +339,7 @@ p <- ggplot(mtcars, aes(factor(cyl), mpg))
 p + geom_boxplot()
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
 
 
 ---
@@ -337,7 +354,7 @@ p3 <- p1 + geom_violin(alpha = 0.25, colour = "pink")
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
 
 
 ---
@@ -349,7 +366,7 @@ grid.arrange(p1, p2, p3, ncol = 3)
 p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
 
 
 ---
@@ -366,7 +383,7 @@ p3 <- ggplot(diamonds, aes(x = carat, y = price)) + geom_hex()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
 
 
 --- 
@@ -377,7 +394,7 @@ grid.arrange(p1, p2, p3, ncol = 3)
 ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
 ```
 
-![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22.png) 
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
 
 
 ---
@@ -393,7 +410,7 @@ ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Assault), map = states
     expand_limits(x = states_map$long, y = states_map$lat)
 ```
 
-![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25.png) 
 
 
 ---
@@ -408,7 +425,7 @@ p2 <- p + coord_map("conic", lat0 = 20)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
 
 
 ---
@@ -468,7 +485,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 ## rasters
 
-![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
+![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
 
 
 ---
@@ -495,7 +512,7 @@ mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f"))
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 ```
 
-![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
 
 
 ---
@@ -507,7 +524,7 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
 ```
 
-![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
 
 
 ---
@@ -520,7 +537,7 @@ ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~
     .)
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
 
 
 ---
@@ -532,7 +549,7 @@ ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 ```
 
-![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
 
 
 ---
@@ -553,7 +570,7 @@ grid.arrange(p, p1, p2, ncol = 3)
 
 ## facets with margins
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
 
 
 ---
@@ -567,7 +584,7 @@ p2 <- p + facet_wrap(~cyl, scales = "free")
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
 
 
 ---
@@ -582,7 +599,7 @@ p2 <- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
 
 
 ---
@@ -599,7 +616,7 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
     expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 ```
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
 
 ---
 
@@ -611,7 +628,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 p + annotate("text", x = 4, y = 25, label = "Some text")
 ```
 
-![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
 
 
 ---
@@ -623,7 +640,7 @@ p + annotate("text", x = 4, y = 25, label = "Some text")
 p + annotate("rect", xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
 
 
 ---
@@ -636,7 +653,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point
 p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39.png) 
+![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
 
 
 ---
@@ -652,7 +669,7 @@ p3 <- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
 
 
 ---
@@ -667,7 +684,7 @@ p3 <- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-43](figure/unnamed-chunk-43.png) 
 
 
 --- 
@@ -682,7 +699,7 @@ p3 <- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
+![plot of chunk unnamed-chunk-44](figure/unnamed-chunk-44.png) 
 
 
 --- 
