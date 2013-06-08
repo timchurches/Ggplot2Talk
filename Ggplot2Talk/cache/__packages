@@ -6,6 +6,8 @@ grid
 mapproj
 maps
 reshape2
+MASS
+nlme
 knitr
 stats
 graphics
@@ -14,3 +16,4 @@ utils
 datasets
 methods
 base
+splines

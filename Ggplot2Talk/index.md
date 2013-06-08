@@ -727,6 +727,98 @@ grid.arrange(p1, p2, p3, ncol = 3)
 
 ![plot of chunk unnamed-chunk-46](figure/unnamed-chunk-46.png) 
 
+---
+
+## Non-linear mixed model from MASS- lattice vs ggplot2
+
+Estimate starting parameters
+
+
+```r
+require(MASS, nlme, splines, lattice)
+Fpl <- deriv(~A + (B - A)/(1 + exp((log(d) - ld50)/th)), c("A", "B", "ld50", 
+    "th"), function(d, A, B, ld50, th) {
+})
+st <- nls(BPchange ~ Fpl(Dose, A, B, ld50, th), start = c(A = 25, B = 0, ld50 = 4, 
+    th = 0.25), data = Rabbit)
+st.pars <- st$m$getPars()
+st.pars
+```
+
+```
+##       A       B    ld50      th 
+## 27.7954  1.5912  4.1214  0.3642
+```
+
+
+---
+
+## Non-linear mixed model from MASS - lattice vs ggplot2
+
+Fit several mixed models
+
+
+```r
+Rc.nlme <- nlme(BPchange ~ Fpl(Dose, A, B, ld50, th), fixed = list(A ~ 1, B ~ 
+    1, ld50 ~ 1, th ~ 1), random = A + ld50 ~ 1 | Animal, data = Rabbit, subset = Treatment == 
+    "Control", start = list(fixed = st.pars))
+Rm.nlme <- update(Rc.nlme, subset = Treatment == "MDL")
+options(contrasts = c("contr.treatment", "contr.poly"))
+c1 <- c(28, 1.6, 4.1, 0.27, 0)
+R.nlme1 <- nlme(BPchange ~ Fpl(Dose, A, B, ld50, th), fixed = list(A ~ Treatment, 
+    B ~ Treatment, ld50 ~ Treatment, th ~ Treatment), random = A + ld50 ~ 1 | 
+    Animal/Run, data = Rabbit, start = list(fixed = c1[c(1, 5, 2, 5, 3, 5, 4, 
+    5)]))
+R.nlme2 <- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~ 
+    1), start = list(fixed = c1[c(1:3, 5, 4)]))
+```
+
+
+---
+
+## Non-linear mixed model from MASS - lattice
+
+
+```r
+xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", 
+    ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", 
+    panel = function(x, y, subscripts) {
+        panel.grid()
+        panel.xyplot(x, y)
+        sp <- spline(x, fitted(R.nlme2)[subscripts])
+        panel.xyplot(sp$x, sp$y, type = "l")
+    })
+```
+
+
+---
+
+## Non-linear mixed model from MASS - ggplot2
+
+
+```r
+Rabbit2 <- cbind(Rabbit, fitted = fitted(R.nlme2))
+p <- ggplot(data = Rabbit2, aes(x = log(Dose), y = BPchange))
+p <- p + geom_point(colour = "red") + facet_grid(Treatment ~ Animal)
+p <- p + geom_smooth(aes(y = fitted), method = "lm", formula = y ~ ns(x, df = 5), 
+    se = F)
+p + xlab("log(Dose) of Phenylbiguanide") + ylab("Change in blood pressure (mm Hg)")
+```
+
+
+---
+
+## Non-linear mixed model from MASS - lattice
+
+![plot of chunk unnamed-chunk-51](figure/unnamed-chunk-51.png) 
+
+
+---
+
+## Non-linear mixed model from MASS - ggplot2
+
+![plot of chunk unnamed-chunk-52](figure/unnamed-chunk-52.png) 
+
 
 --- 
 
@@ -744,4 +836,6 @@ grid.arrange(p1, p2, p3, ncol = 3)
 ---
 
 ## Enough!
+
+
 
