@@ -14,7 +14,7 @@ mode        : selfcontained # {selfcontained, standalone, draft}
 
 --- 
 
-## Source
+## source
 The majority of the material in this presentation is taken from the book:
 - Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009
 - DOI 10.1007/978-0-387-98141-3
@@ -27,7 +27,7 @@ opts_chunk$set(cache=TRUE)
 
 ---
 
-## A grammar of graphics
+## grammar of graphics
 
 Wilkinson (2005) created a grammar of graphics to describe the deep features that underlie all statistical graphics as "parts of speech": 
    >- The ```data``` that you want to visualise
@@ -39,7 +39,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## A grammar of graphics, cont'd
+## grammar of graphics, cont'd
 
    >- a coordinate system, ```coord``` for short, describing how data coordinates are mapped to the plane of the graphic
       - also provides axes and gridlines to make it possible to read the graph
@@ -54,7 +54,15 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## Grammar not pronounciation
+## anatomy of a plot
+
+![plot anatomy](assets/img/ggplot2-anatomy-all-annotated.png)
+
+Graphic by Software and Programmer Efficiency (Sape) Research Group at the Faculty of Informatics of the University of Lugano
+
+---
+
+## grammar not pronounciation
 
    >- the Wilkinson grammar of graphics does not include finer points of display
       - font size or background colour are not specified by the grammar
@@ -72,7 +80,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## What ggplot2 doesn't do
+## what ggplot2 doesn't do
 
    >- graphs are static, not interactive (e.g. brushing, zooming), but...
       - Hadley Wickham is rewriting ggplot2 in JavaScript, using the d3 library -> interactive graphs
@@ -115,7 +123,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
   
-## Installing ggplot2
+## installing ggplot2
 
 ```{r eval=FALSE}
 install.packages("ggplot2")
@@ -156,7 +164,7 @@ qplot(carat, price, data = diamonds)
 
 ---
 
-## Functions can be used on variables
+## functions can be used on variables
 
 - true throughout ggplot2
 
@@ -166,7 +174,7 @@ qplot(log(carat), log(price), data = diamonds)
 
 ---
 
-## Additional arguments to modify qplot() output
+## additional arguments to modify qplot() output
 ```{r fig.width=8, fig.height=6}
 qplot(carat, price, data = diamonds, colour = color)
 ```
@@ -174,6 +182,7 @@ qplot(carat, price, data = diamonds, colour = color)
 ---
 
 ## ggplot2 graphics are objects
+
 ```{r fig.width=14, fig.height=6}
 p1 <- qplot(carat, price, data = diamonds, colour = color)
 p2 <- qplot(carat, price, data = diamonds, shape = cut)
@@ -183,6 +192,7 @@ grid.arrange(p1,p2,ncol=2)
 ---
 
 ## ggplot() - the real deal
+
 - takes two arguments: a data frame, and an aesthetic mapping
 ```{r eval=FALSE, fig.width=8, fig.height=6}
 p <- ggplot(diamonds, aes(carat, price, colour = cut))
@@ -193,7 +203,8 @@ Hmmm, no output!
 
 ---
 
-## Need to add a geom
+## need to add a geom
+
 ```{r fig.width=8, fig.height=6}
 p <- ggplot(diamonds, aes(carat, price, colour = cut))
 p + geom_point()
@@ -230,10 +241,11 @@ grid.arrange(p1,p2,ncol=2)
 
 ## aesthetic mappings can be added to geoms as well
 
-```{r fig.width=12, fig.height=4.5, message=FALSE, warning=FALSE}
-p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = cyl),size=5)
-p2 <- p1 + geom_line() + geom_smooth()
-grid.arrange(p1,p2,ncol=2)
+```{r fig.width=14, fig.height=4.5, message=FALSE, warning=FALSE}
+p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = factor(cyl)),size=5)
+p2 <- p1 + geom_smooth()
+p3 <- p1 + geom_smooth(aes(group=cyl,colour=factor(cyl)), method='lm',size=1.5)
+grid.arrange(p1,p2,p3,ncol=3)
 ```
 
 ---
@@ -300,6 +312,16 @@ grid.arrange(p1,p2,p3,ncol=3)
 
 ---
 
+## other geoms: quantile regression (boxplot analogue for continuous variables)
+
+```{r fig.width=10, fig.height=5, message=FALSE, warning=FALSE}
+msamp <- movies[sample(nrow(movies), 1000), ]
+p <- ggplot(msamp, aes(year, rating)) + geom_point()
+p + geom_quantile()
+```
+
+---
+
 ## other geoms: boxplots + flipped co-ordinates
 
 ```{r fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
@@ -359,6 +381,15 @@ ggplot(diamonds, aes(clarity, fill=cut)) + geom_bar() + coord_polar()
 
 ---
 
+## alpha channel blending
+
+```{r fig.width=8, fig.height=6, message=FALSE, warning=FALSE}
+p <- ggplot(data=mpg) + aes(x=cty,fill=factor(cyl)) 
+p + geom_density(alpha = 0.5)
+```
+
+---
+
 ## maps
 
 ```{r fig.width=6, fig.height=4, message=FALSE, warning=FALSE}
@@ -378,39 +409,6 @@ p1 <- p + coord_map() # defaults to Mercator projection
 p2 <- p + coord_map("conic", lat0 = 20)
 grid.arrange(p1,p2,ncol=2)
 ```
-
----
-  
-## predefined geoms
-
-geom | description | geom | description
----------|----------|---------|----------
-geom_abline | Line specified by a slope | geom_area | Area plot
-geom_bar | Bar charts with bases on x-axis | geom_bin2d | Heat map of 2D binned values
-geom_blank | Draws a blank | geom_boxplot | Box and whiskers plots
-geom_contour | Display contours of a 3D surface in 2D | geom_crossbar | Hollow bar with middle indicated by horizontal line
-geom_density | Display a smoothed density estimate | geom_density2d | Contours from a 2D density estimate
-geom_dotplot | Dot plot, beloved of ABS | geom_errorbar | Error/CI bars
-geom_errorbarh | Horizontal error bars | geom_freqpoly | Frequency polygon
-geom_hex | Hexagon bining | geom_histogram | Histogram
-geom_hline | Horizontal line | geom_jitter | Points, jittered to reduce over plotting
-geom_line | Connect observations, ordered by x value | geom_linerange | An interval represented by a vertical line
-geom_map | Polygons from a reference map | geom_path | Connect observations in original order
-
----
-  
-## predefined geoms, cont'd
-
-geom | description | geom | description
----------|----------|---------|----------
-geom_point | Scatterplot | geom_pointrange | An interval represented by a vertical line, with a point in the middle
-geom_polygon | Polygon, a filled path, can also draw maps | geom_quantile | Add quantile lines from a quantile regression
-geom_raster | High-performance rectangular tiling | geom_rect | Draw arbitrary 2D rectangles
-geom_ribbon | Ribbons, y range with continuous x values | geom_rug | Marginal rug plots
-geom_segment | Single line segments | geom_smooth | Add a smoothed conditional mean
-geom_step | Connect observations by stairs (KM plots) | geom_text | Textual annotations
-geom_tile | Tile plane with rectangles | geom_violin | Violin plot
-geom_vline | Vertical line | |
 
 ---
 
@@ -447,6 +445,39 @@ p1 <- ggplot(data = pp(20), aes(x=x, y=y, fill = z)) + geom_raster()
 p2 <- p1 %+% pp(200)
 grid.arrange(p1,p2,ncol=2)
 ```
+
+---
+  
+## predefined geoms
+
+geom | description | geom | description
+---------|----------|---------|----------
+geom_abline | Line specified by a slope | geom_area | Area plot
+geom_bar | Bar charts with bases on x-axis | geom_bin2d | Heat map of 2D binned values
+geom_blank | Draws a blank | geom_boxplot | Box and whiskers plots
+geom_contour | Display contours of a 3D surface in 2D | geom_crossbar | Hollow bar with middle indicated by horizontal line
+geom_density | Display a smoothed density estimate | geom_density2d | Contours from a 2D density estimate
+geom_dotplot | Dot plot, beloved of ABS | geom_errorbar | Error/CI bars
+geom_errorbarh | Horizontal error bars | geom_freqpoly | Frequency polygon
+geom_hex | Hexagon bining | geom_histogram | Histogram
+geom_hline | Horizontal line | geom_jitter | Points, jittered to reduce over plotting
+geom_line | Connect observations, ordered by x value | geom_linerange | An interval represented by a vertical line
+geom_map | Polygons from a reference map | geom_path | Connect observations in original order
+
+---
+  
+## predefined geoms, cont'd
+
+geom | description | geom | description
+---------|----------|---------|----------
+geom_point | Scatterplot | geom_pointrange | An interval represented by a vertical line, with a point in the middle
+geom_polygon | Polygon, a filled path, can also draw maps | geom_quantile | Add quantile lines from a quantile regression
+geom_raster | High-performance rectangular tiling | geom_rect | Draw arbitrary 2D rectangles
+geom_ribbon | Ribbons, y range with continuous x values | geom_rug | Marginal rug plots
+geom_segment | Single line segments | geom_smooth | Add a smoothed conditional mean
+geom_step | Connect observations by stairs (KM plots) | geom_text | Textual annotations
+geom_tile | Tile plane with rectangles | geom_violin | Violin plot
+geom_vline | Vertical line | |
 
 ---
 
@@ -515,7 +546,7 @@ ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, lab
 
 ---
 
-## Custom labellers
+## custom labellers
 
 ```{r eval=FALSE, fig.width=14, fig.height=7, message=FALSE, warning=FALSE}
 cyl_drv_custom_labeller <- function(variable,value) {
@@ -531,7 +562,7 @@ ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, lab
 
 ---
 
-## Custom labellers
+## custom labellers
 
 ```{r eval=TRUE, echo=FALSE, fig.width=14, fig.height=7}
 cyl_drv_custom_labeller <- function(variable,value) {
@@ -547,7 +578,7 @@ ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, lab
 
 ---
 
-## facets with margins
+## facets with marginals
 
 ``` {r eval=FALSE, echo=TRUE}
 p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) 
@@ -559,7 +590,7 @@ grid.arrange(p, p1,p2,ncol=3)
 
 ---
 
-## facets with margins
+## facets with marginals
 
 ``` {r fig.width=14, fig.height=7, echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) 
@@ -662,11 +693,22 @@ grid.arrange(p1,p2,p3,ncol=3)
 ```
 ---
 
-## Non-linear mixed model from MASS: lattice vs ggplot2
+## customised themes
 
-* Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+```{r fig.width=14, fig.height=5, message=FALSE, warning=FALSE}
+p1 <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) + geom_point(aes(color = Species))
+p2 <- p1 + theme(panel.background = element_rect(fill = "green"))  
+p2 <- p2 + theme(panel.grid.major = element_line(colour = "black")) + labs(title="Yuk!")
+grid.arrange(p1,p2,ncol=2)
+```
 
-* First estimate starting parameters
+---
+
+## non-linear mixed model from MASS: lattice vs ggplot2
+
+* example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+
+* first estimate starting parameters
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 require(MASS, nlme, splines, lattice)
@@ -677,9 +719,9 @@ st.pars <- st$m$getPars()
 
 ---
 
-## Non-linear mixed model from MASS: lattice vs ggplot2
+## non-linear mixed model from MASS: lattice vs ggplot2
 
-Fit several mixed models
+fit several mixed models
 
 ```{r echo=TRUE}
 Rc.nlme <- nlme(BPchange ~ Fpl(Dose, A, B, ld50, th), fixed =  list(A ~ 1, B ~ 1, ld50 ~ 1, th ~ 1), random = A + ld50 ~ 1 | Animal, data = Rabbit, subset = Treatment=="Control", start = list(fixed=st.pars))
@@ -692,7 +734,7 @@ R.nlme2 <- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~ 1),
 
 ---
 
-## Non-linear mixed model from MASS - lattice
+## non-linear mixed model from MASS - lattice
 
 ```{r echo=FALSE, eval=TRUE}
 title <- "Effect of MDL 72222 on phenylbiguanide-induced BP change in rabbits\nData shown as points, fitted values from nonlinear mixed effects models as a spline"
@@ -709,7 +751,7 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 
 ---
 
-## Non-linear mixed model from MASS - ggplot2
+## non-linear mixed model from MASS - ggplot2
 
 ```{r echo=TRUE, eval=FALSE}
 Rabbit2 <- cbind(Rabbit, fitted=fitted(R.nlme2))
@@ -722,7 +764,7 @@ p
 
 ---
 
-## Non-linear mixed model from MASS - lattice
+## non-linear mixed model from MASS - lattice
 
 ```{r echo=FALSE, eval=TRUE, fig.width=12, fig.height=7, message=FALSE, warning=FALSE}
 xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", main=title, panel = function(x, y, subscripts) {
@@ -735,7 +777,7 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 
 ---
 
-## Non-linear mixed model from MASS - ggplot2
+## non-linear mixed model from MASS - ggplot2
 
 ```{r echo=FALSE, eval=TRUE, fig.width=12, fig.height=6, message=FALSE, warning=FALSE}
 library(splines)
@@ -749,7 +791,7 @@ p
 
 --- 
 
-## Summary
+## summary
 
 >- ggplot2 a viable alternative to base R graphics and the lattice package
 >- still some gaps
@@ -762,7 +804,7 @@ p
 
 ---
 
-## Enough!
+## enough!
 
 
 

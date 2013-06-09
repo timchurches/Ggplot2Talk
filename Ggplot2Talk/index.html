@@ -57,7 +57,7 @@
     <!-- SLIDES -->
       <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Source</h2>
+    <h2>source</h2>
   </hgroup>
   <article>
     <p>The majority of the material in this presentation is taken from the book:</p>
@@ -75,7 +75,7 @@
 
       <slide class="" id="slide-2" style="background:;">
   <hgroup>
-    <h2>A grammar of graphics</h2>
+    <h2>grammar of graphics</h2>
   </hgroup>
   <article>
     <p>Wilkinson (2005) created a grammar of graphics to describe the deep features that underlie all statistical graphics as &quot;parts of speech&quot;: </p>
@@ -98,7 +98,7 @@
 
       <slide class="" id="slide-3" style="background:;">
   <hgroup>
-    <h2>A grammar of graphics, cont&#39;d</h2>
+    <h2>grammar of graphics, cont&#39;d</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -129,7 +129,20 @@
 
       <slide class="" id="slide-4" style="background:;">
   <hgroup>
-    <h2>Grammar not pronounciation</h2>
+    <h2>anatomy of a plot</h2>
+  </hgroup>
+  <article>
+    <p><img src="assets/img/ggplot2-anatomy-all-annotated.png" alt="plot anatomy"></p>
+
+<p>Graphic by Software and Programmer Efficiency (Sape) Research Group at the Faculty of Informatics of the University of Lugano</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>grammar not pronounciation</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -159,9 +172,9 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-5" style="background:;">
+      <slide class="" id="slide-6" style="background:;">
   <hgroup>
-    <h2>What ggplot2 doesn&#39;t do</h2>
+    <h2>what ggplot2 doesn&#39;t do</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -185,7 +198,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-6" style="background:;">
+      <slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>ggplot2 versus other R graphics systems</h2>
   </hgroup>
@@ -212,7 +225,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-7" style="background:;">
+      <slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>ggplot2 versus other R graphics systems, cont&#39;d</h2>
   </hgroup>
@@ -239,9 +252,9 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-8" style="background:;">
+      <slide class="" id="slide-9" style="background:;">
   <hgroup>
-    <h2>Installing ggplot2</h2>
+    <h2>installing ggplot2</h2>
   </hgroup>
   <article>
     <pre><code class="r">install.packages(&quot;ggplot2&quot;)
@@ -263,7 +276,7 @@ library(gridExtra)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-9" style="background:;">
+      <slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>qplot()</h2>
   </hgroup>
@@ -292,7 +305,7 @@ library(gridExtra)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-10" style="background:;">
+      <slide class="" id="slide-11" style="background:;">
   <hgroup>
     <h2>qplot()</h2>
   </hgroup>
@@ -306,9 +319,9 @@ library(gridExtra)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-11" style="background:;">
+      <slide class="" id="slide-12" style="background:;">
   <hgroup>
-    <h2>Functions can be used on variables</h2>
+    <h2>functions can be used on variables</h2>
   </hgroup>
   <article>
     <ul>
@@ -324,9 +337,9 @@ library(gridExtra)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-12" style="background:;">
+      <slide class="" id="slide-13" style="background:;">
   <hgroup>
-    <h2>Additional arguments to modify qplot() output</h2>
+    <h2>additional arguments to modify qplot() output</h2>
   </hgroup>
   <article>
     <pre><code class="r">qplot(carat, price, data = diamonds, colour = color)
@@ -338,7 +351,7 @@ library(gridExtra)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-13" style="background:;">
+      <slide class="" id="slide-14" style="background:;">
   <hgroup>
     <h2>ggplot2 graphics are objects</h2>
   </hgroup>
@@ -354,7 +367,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-14" style="background:;">
+      <slide class="" id="slide-15" style="background:;">
   <hgroup>
     <h2>ggplot() - the real deal</h2>
   </hgroup>
@@ -373,9 +386,9 @@ p
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-15" style="background:;">
+      <slide class="" id="slide-16" style="background:;">
   <hgroup>
-    <h2>Need to add a geom</h2>
+    <h2>need to add a geom</h2>
   </hgroup>
   <article>
     <pre><code class="r">p &lt;- ggplot(diamonds, aes(carat, price, colour = cut))
@@ -388,7 +401,7 @@ p + geom_point()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-16" style="background:;">
+      <slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>plots are R objects</h2>
   </hgroup>
@@ -415,7 +428,7 @@ p + geom_point()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-17" style="background:;">
+      <slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>replacing data in a plot object</h2>
   </hgroup>
@@ -436,14 +449,16 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-18" style="background:;">
+      <slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>aesthetic mappings can be added to geoms as well</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = cyl), size = 5)
-p2 &lt;- p1 + geom_line() + geom_smooth()
-grid.arrange(p1, p2, ncol = 2)
+    <pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = factor(cyl)), size = 5)
+p2 &lt;- p1 + geom_smooth()
+p3 &lt;- p1 + geom_smooth(aes(group = cyl, colour = factor(cyl)), method = &quot;lm&quot;, 
+    size = 1.5)
+grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-14.png" alt="plot of chunk unnamed-chunk-14"> </p>
@@ -452,7 +467,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-19" style="background:;">
+      <slide class="" id="slide-20" style="background:;">
   <hgroup>
     <h2>override geom default statistical mappings</h2>
   </hgroup>
@@ -469,7 +484,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-20" style="background:;">
+      <slide class="" id="slide-21" style="background:;">
   <hgroup>
     <h2>mixing stats with geoms</h2>
   </hgroup>
@@ -485,7 +500,7 @@ grid.arrange(d1, d2, d3, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-21" style="background:;">
+      <slide class="" id="slide-22" style="background:;">
   <hgroup>
     <h2>mixing stats with geoms</h2>
   </hgroup>
@@ -496,7 +511,7 @@ grid.arrange(d1, d2, d3, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-22" style="background:;">
+      <slide class="" id="slide-23" style="background:;">
   <hgroup>
     <h2>mixing stats with geoms</h2>
   </hgroup>
@@ -512,7 +527,7 @@ p + stat_function(fun = dnorm, colour = &quot;red&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-23" style="background:;">
+      <slide class="" id="slide-24" style="background:;">
   <hgroup>
     <h2>other geoms: boxplots</h2>
   </hgroup>
@@ -527,7 +542,7 @@ p + geom_boxplot()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-24" style="background:;">
+      <slide class="" id="slide-25" style="background:;">
   <hgroup>
     <h2>other geoms: boxplots, violin plots, jittered points</h2>
   </hgroup>
@@ -544,12 +559,14 @@ grid.arrange(p1, p2, p3, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-25" style="background:;">
+      <slide class="" id="slide-26" style="background:;">
   <hgroup>
-    <h2>other geoms: boxplots + flipped co-ordinates</h2>
+    <h2>other geoms: quantile regression (boxplot analogue for continuous variables)</h2>
   </hgroup>
   <article>
-    <pre><code class="r">p + geom_boxplot(outlier.colour = &quot;green&quot;, outlier.size = 5) + coord_flip()
+    <pre><code class="r">msamp &lt;- movies[sample(nrow(movies), 1000), ]
+p &lt;- ggplot(msamp, aes(year, rating)) + geom_point()
+p + geom_quantile()
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-21.png" alt="plot of chunk unnamed-chunk-21"> </p>
@@ -558,7 +575,21 @@ grid.arrange(p1, p2, p3, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-26" style="background:;">
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>other geoms: boxplots + flipped co-ordinates</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p + geom_boxplot(outlier.colour = &quot;green&quot;, outlier.size = 5) + coord_flip()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-22.png" alt="plot of chunk unnamed-chunk-22"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
   <hgroup>
     <h2>Variations on a scatter plot by substituting geoms</h2>
   </hgroup>
@@ -579,18 +610,18 @@ grid.arrange(p1, p2, p3, p4, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-27" style="background:;">
+      <slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Variations on a scatter plot by substituting geoms</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-23.png" alt="plot of chunk unnamed-chunk-23"> </p>
+    <p><img src="figure/unnamed-chunk-24.png" alt="plot of chunk unnamed-chunk-24"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-28" style="background:;">
+      <slide class="" id="slide-30" style="background:;">
   <hgroup>
     <h2>fill, dodge, binhex</h2>
   </hgroup>
@@ -601,13 +632,13 @@ p3 &lt;- ggplot(diamonds, aes(x = carat, y = price)) + geom_hex()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-25.png" alt="plot of chunk unnamed-chunk-25"> </p>
+<p><img src="figure/unnamed-chunk-26.png" alt="plot of chunk unnamed-chunk-26"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-29" style="background:;">
+      <slide class="" id="slide-31" style="background:;">
   <hgroup>
     <h2>different coordinate systems</h2>
   </hgroup>
@@ -615,13 +646,28 @@ grid.arrange(p1, p2, p3, ncol = 3)
     <pre><code class="r">ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-26.png" alt="plot of chunk unnamed-chunk-26"> </p>
+<p><img src="figure/unnamed-chunk-27.png" alt="plot of chunk unnamed-chunk-27"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-30" style="background:;">
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>alpha channel blending</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p &lt;- ggplot(data = mpg) + aes(x = cty, fill = factor(cyl))
+p + geom_density(alpha = 0.5)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-28.png" alt="plot of chunk unnamed-chunk-28"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
   <hgroup>
     <h2>maps</h2>
   </hgroup>
@@ -633,13 +679,13 @@ ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Assault), map = states
     expand_limits(x = states_map$long, y = states_map$lat)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-27.png" alt="plot of chunk unnamed-chunk-27"> </p>
+<p><img src="figure/unnamed-chunk-29.png" alt="plot of chunk unnamed-chunk-29"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-31" style="background:;">
+      <slide class="" id="slide-34" style="background:;">
   <hgroup>
     <h2>maps with cartographic projections</h2>
   </hgroup>
@@ -650,13 +696,46 @@ p2 &lt;- p + coord_map(&quot;conic&quot;, lat0 = 20)
 grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-28.png" alt="plot of chunk unnamed-chunk-28"> </p>
+<p><img src="figure/unnamed-chunk-30.png" alt="plot of chunk unnamed-chunk-30"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-32" style="background:;">
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>rasters</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r"># Generate data
+pp &lt;- function(n, r = 4) {
+    x &lt;- seq(-r * pi, r * pi, len = n)
+    df &lt;- expand.grid(x = x, y = x)
+    df$r &lt;- sqrt(df$x^2 + df$y^2)
+    df$z &lt;- cos(df$r^2) * exp(-df$r/6)
+    df
+}
+p1 &lt;- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
+p2 &lt;- p1 %+% pp(200)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>rasters</h2>
+  </hgroup>
+  <article>
+    <p><img src="figure/unnamed-chunk-32.png" alt="plot of chunk unnamed-chunk-32"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
   <hgroup>
     <h2>predefined geoms</h2>
   </hgroup>
@@ -741,7 +820,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-33" style="background:;">
+      <slide class="" id="slide-38" style="background:;">
   <hgroup>
     <h2>predefined geoms, cont&#39;d</h2>
   </hgroup>
@@ -808,40 +887,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-34" style="background:;">
-  <hgroup>
-    <h2>rasters</h2>
-  </hgroup>
-  <article>
-    <pre><code class="r"># Generate data
-pp &lt;- function(n, r = 4) {
-    x &lt;- seq(-r * pi, r * pi, len = n)
-    df &lt;- expand.grid(x = x, y = x)
-    df$r &lt;- sqrt(df$x^2 + df$y^2)
-    df$z &lt;- cos(df$r^2) * exp(-df$r/6)
-    df
-}
-p1 &lt;- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
-p2 &lt;- p1 %+% pp(200)
-grid.arrange(p1, p2, ncol = 2)
-</code></pre>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-35" style="background:;">
-  <hgroup>
-    <h2>rasters</h2>
-  </hgroup>
-  <article>
-    <p><img src="figure/unnamed-chunk-30.png" alt="plot of chunk unnamed-chunk-30"> </p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-36" style="background:;">
+      <slide class="" id="slide-39" style="background:;">
   <hgroup>
     <h2>facets</h2>
   </hgroup>
@@ -867,7 +913,7 @@ grid.arrange(p1, p2, ncol = 2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-37" style="background:;">
+      <slide class="" id="slide-40" style="background:;">
   <hgroup>
     <h2>no facets</h2>
   </hgroup>
@@ -876,47 +922,18 @@ grid.arrange(p1, p2, ncol = 2)
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-31.png" alt="plot of chunk unnamed-chunk-31"> </p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-38" style="background:;">
-  <hgroup>
-    <h2>facets</h2>
-  </hgroup>
-  <article>
-    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
-</code></pre>
-
-<p><img src="figure/unnamed-chunk-32.png" alt="plot of chunk unnamed-chunk-32"> </p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-      <slide class="" id="slide-39" style="background:;">
-  <hgroup>
-    <h2>facets</h2>
-  </hgroup>
-  <article>
-    <pre><code class="r">ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~ 
-    .)
-</code></pre>
-
 <p><img src="figure/unnamed-chunk-33.png" alt="plot of chunk unnamed-chunk-33"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-40" style="background:;">
+      <slide class="" id="slide-41" style="background:;">
   <hgroup>
     <h2>facets</h2>
   </hgroup>
   <article>
-    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-34.png" alt="plot of chunk unnamed-chunk-34"> </p>
@@ -925,12 +942,13 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-41" style="background:;">
+      <slide class="" id="slide-42" style="background:;">
   <hgroup>
-    <h2>facets: label with varaiable name and value</h2>
+    <h2>facets</h2>
   </hgroup>
   <article>
-    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller = label_both)
+    <pre><code class="r">ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~ 
+    .)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-35.png" alt="plot of chunk unnamed-chunk-35"> </p>
@@ -939,13 +957,12 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-42" style="background:;">
+      <slide class="" id="slide-43" style="background:;">
   <hgroup>
-    <h2>nested facets</h2>
+    <h2>facets</h2>
   </hgroup>
   <article>
-    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv, 
-    labeller = label_both)
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 </code></pre>
 
 <p><img src="figure/unnamed-chunk-36.png" alt="plot of chunk unnamed-chunk-36"> </p>
@@ -954,9 +971,38 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-43" style="background:;">
+      <slide class="" id="slide-44" style="background:;">
   <hgroup>
-    <h2>Custom labellers</h2>
+    <h2>facets: label with varaiable name and value</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller = label_both)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-37.png" alt="plot of chunk unnamed-chunk-37"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>nested facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv, 
+    labeller = label_both)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-38.png" alt="plot of chunk unnamed-chunk-38"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>custom labellers</h2>
   </hgroup>
   <article>
     <pre><code class="r">cyl_drv_custom_labeller &lt;- function(variable, value) {
@@ -975,20 +1021,20 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv,
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-44" style="background:;">
+      <slide class="" id="slide-47" style="background:;">
   <hgroup>
-    <h2>Custom labellers</h2>
+    <h2>custom labellers</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-38.png" alt="plot of chunk unnamed-chunk-38"> </p>
+    <p><img src="figure/unnamed-chunk-40.png" alt="plot of chunk unnamed-chunk-40"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-45" style="background:;">
+      <slide class="" id="slide-48" style="background:;">
   <hgroup>
-    <h2>facets with margins</h2>
+    <h2>facets with marginals</h2>
   </hgroup>
   <article>
     <pre><code class="r">p &lt;- ggplot(data = mpg2, aes(displ, hwy)) + geom_point(alpha = 0.25)
@@ -1002,18 +1048,18 @@ grid.arrange(p, p1, p2, ncol = 3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-46" style="background:;">
+      <slide class="" id="slide-49" style="background:;">
   <hgroup>
-    <h2>facets with margins</h2>
+    <h2>facets with marginals</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-40.png" alt="plot of chunk unnamed-chunk-40"> </p>
+    <p><img src="figure/unnamed-chunk-42.png" alt="plot of chunk unnamed-chunk-42"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-47" style="background:;">
+      <slide class="" id="slide-50" style="background:;">
   <hgroup>
     <h2>facets with free scales</h2>
   </hgroup>
@@ -1024,13 +1070,13 @@ p2 &lt;- p + facet_wrap(~cyl, scales = &quot;free&quot;)
 grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-41.png" alt="plot of chunk unnamed-chunk-41"> </p>
+<p><img src="figure/unnamed-chunk-43.png" alt="plot of chunk unnamed-chunk-43"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-48" style="background:;">
+      <slide class="" id="slide-51" style="background:;">
   <hgroup>
     <h2>parsed labels</h2>
   </hgroup>
@@ -1041,13 +1087,13 @@ p2 &lt;- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
 grid.arrange(p1, p2, ncol = 2)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-42.png" alt="plot of chunk unnamed-chunk-42"> </p>
+<p><img src="figure/unnamed-chunk-44.png" alt="plot of chunk unnamed-chunk-44"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-49" style="background:;">
+      <slide class="" id="slide-52" style="background:;">
   <hgroup>
     <h2>facetted maps</h2>
   </hgroup>
@@ -1057,13 +1103,13 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
     expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-44.png" alt="plot of chunk unnamed-chunk-44"> </p>
+<p><img src="figure/unnamed-chunk-46.png" alt="plot of chunk unnamed-chunk-46"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-50" style="background:;">
+      <slide class="" id="slide-53" style="background:;">
   <hgroup>
     <h2>annotations</h2>
   </hgroup>
@@ -1072,13 +1118,13 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
 p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-45.png" alt="plot of chunk unnamed-chunk-45"> </p>
+<p><img src="figure/unnamed-chunk-47.png" alt="plot of chunk unnamed-chunk-47"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-51" style="background:;">
+      <slide class="" id="slide-54" style="background:;">
   <hgroup>
     <h2>annotations</h2>
   </hgroup>
@@ -1086,13 +1132,13 @@ p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
     <pre><code class="r">p + annotate(&quot;rect&quot;, xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-46.png" alt="plot of chunk unnamed-chunk-46"> </p>
+<p><img src="figure/unnamed-chunk-48.png" alt="plot of chunk unnamed-chunk-48"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-52" style="background:;">
+      <slide class="" id="slide-55" style="background:;">
   <hgroup>
     <h2>data-driven annotations</h2>
   </hgroup>
@@ -1101,13 +1147,13 @@ p + annotate(&quot;text&quot;, x = 4, y = 25, label = &quot;Some text&quot;)
 p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-47.png" alt="plot of chunk unnamed-chunk-47"> </p>
+<p><img src="figure/unnamed-chunk-49.png" alt="plot of chunk unnamed-chunk-49"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-53" style="background:;">
+      <slide class="" id="slide-56" style="background:;">
   <hgroup>
     <h2>colour palettes</h2>
   </hgroup>
@@ -1119,13 +1165,13 @@ p3 &lt;- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-48.png" alt="plot of chunk unnamed-chunk-48"> </p>
+<p><img src="figure/unnamed-chunk-50.png" alt="plot of chunk unnamed-chunk-50"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-54" style="background:;">
+      <slide class="" id="slide-57" style="background:;">
   <hgroup>
     <h2>themes</h2>
   </hgroup>
@@ -1136,13 +1182,13 @@ p3 &lt;- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-49.png" alt="plot of chunk unnamed-chunk-49"> </p>
+<p><img src="figure/unnamed-chunk-51.png" alt="plot of chunk unnamed-chunk-51"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-55" style="background:;">
+      <slide class="" id="slide-58" style="background:;">
   <hgroup>
     <h2>more themes</h2>
   </hgroup>
@@ -1153,20 +1199,37 @@ p3 &lt;- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 </code></pre>
 
-<p><img src="figure/unnamed-chunk-50.png" alt="plot of chunk unnamed-chunk-50"> </p>
+<p><img src="figure/unnamed-chunk-52.png" alt="plot of chunk unnamed-chunk-52"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-56" style="background:;">
+      <slide class="" id="slide-59" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS: lattice vs ggplot2</h2>
+    <h2>customised themes</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">p1 &lt;- ggplot(iris, aes(Sepal.Width, Sepal.Length)) + geom_point(aes(color = Species))
+p2 &lt;- p1 + theme(panel.background = element_rect(fill = &quot;green&quot;))
+p2 &lt;- p2 + theme(panel.grid.major = element_line(colour = &quot;black&quot;)) + labs(title = &quot;Yuk!&quot;)
+grid.arrange(p1, p2, ncol = 2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-53.png" alt="plot of chunk unnamed-chunk-53"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>non-linear mixed model from MASS: lattice vs ggplot2</h2>
   </hgroup>
   <article>
     <ul>
-<li><p>Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7</p></li>
-<li><p>First estimate starting parameters</p></li>
+<li><p>example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7</p></li>
+<li><p>first estimate starting parameters</p></li>
 </ul>
 
 <pre><code class="r">require(MASS, nlme, splines, lattice)
@@ -1182,12 +1245,12 @@ st.pars &lt;- st$m$getPars()
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-57" style="background:;">
+      <slide class="" id="slide-61" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS: lattice vs ggplot2</h2>
+    <h2>non-linear mixed model from MASS: lattice vs ggplot2</h2>
   </hgroup>
   <article>
-    <p>Fit several mixed models</p>
+    <p>fit several mixed models</p>
 
 <pre><code class="r">Rc.nlme &lt;- nlme(BPchange ~ Fpl(Dose, A, B, ld50, th), fixed = list(A ~ 1, B ~ 
     1, ld50 ~ 1, th ~ 1), random = A + ld50 ~ 1 | Animal, data = Rabbit, subset = Treatment == 
@@ -1207,9 +1270,9 @@ R.nlme2 &lt;- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-58" style="background:;">
+      <slide class="" id="slide-62" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS - lattice</h2>
+    <h2>non-linear mixed model from MASS - lattice</h2>
   </hgroup>
   <article>
     <pre><code class="r">xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = &quot;log(Dose) of Phenylbiguanide&quot;, 
@@ -1226,9 +1289,9 @@ R.nlme2 &lt;- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-59" style="background:;">
+      <slide class="" id="slide-63" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS - ggplot2</h2>
+    <h2>non-linear mixed model from MASS - ggplot2</h2>
   </hgroup>
   <article>
     <pre><code class="r">Rabbit2 &lt;- cbind(Rabbit, fitted = fitted(R.nlme2))
@@ -1244,31 +1307,31 @@ p
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-60" style="background:;">
+      <slide class="" id="slide-64" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS - lattice</h2>
+    <h2>non-linear mixed model from MASS - lattice</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-56.png" alt="plot of chunk unnamed-chunk-56"> </p>
+    <p><img src="figure/unnamed-chunk-59.png" alt="plot of chunk unnamed-chunk-59"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-61" style="background:;">
+      <slide class="" id="slide-65" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS - ggplot2</h2>
+    <h2>non-linear mixed model from MASS - ggplot2</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-57.png" alt="plot of chunk unnamed-chunk-57"> </p>
+    <p><img src="figure/unnamed-chunk-60.png" alt="plot of chunk unnamed-chunk-60"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-62" style="background:;">
+      <slide class="" id="slide-66" style="background:;">
   <hgroup>
-    <h2>Summary</h2>
+    <h2>summary</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -1286,9 +1349,9 @@ p
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-63" style="background:;">
+      <slide class="" id="slide-67" style="background:;">
   <hgroup>
-    <h2>Enough!</h2>
+    <h2>enough!</h2>
   </hgroup>
   <article>
     

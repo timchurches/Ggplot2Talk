@@ -14,7 +14,7 @@ mode        : selfcontained # {selfcontained, standalone, draft}
 
 --- 
 
-## Source
+## source
 The majority of the material in this presentation is taken from the book:
 - Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009
 - DOI 10.1007/978-0-387-98141-3
@@ -26,7 +26,7 @@ The majority of the material in this presentation is taken from the book:
 
 ---
 
-## A grammar of graphics
+## grammar of graphics
 
 Wilkinson (2005) created a grammar of graphics to describe the deep features that underlie all statistical graphics as "parts of speech": 
    >- The ```data``` that you want to visualise
@@ -38,7 +38,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## A grammar of graphics, cont'd
+## grammar of graphics, cont'd
 
    >- a coordinate system, ```coord``` for short, describing how data coordinates are mapped to the plane of the graphic
       - also provides axes and gridlines to make it possible to read the graph
@@ -53,7 +53,15 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## Grammar not pronounciation
+## anatomy of a plot
+
+![plot anatomy](assets/img/ggplot2-anatomy-all-annotated.png)
+
+Graphic by Software and Programmer Efficiency (Sape) Research Group at the Faculty of Informatics of the University of Lugano
+
+---
+
+## grammar not pronounciation
 
    >- the Wilkinson grammar of graphics does not include finer points of display
       - font size or background colour are not specified by the grammar
@@ -71,7 +79,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## What ggplot2 doesn't do
+## what ggplot2 doesn't do
 
    >- graphs are static, not interactive (e.g. brushing, zooming), but...
       - Hadley Wickham is rewriting ggplot2 in JavaScript, using the d3 library -> interactive graphs
@@ -114,7 +122,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
   
-## Installing ggplot2
+## installing ggplot2
 
 
 ```r
@@ -165,7 +173,7 @@ qplot(carat, price, data = diamonds)
 
 ---
 
-## Functions can be used on variables
+## functions can be used on variables
 
 - true throughout ggplot2
 
@@ -179,7 +187,7 @@ qplot(log(carat), log(price), data = diamonds)
 
 ---
 
-## Additional arguments to modify qplot() output
+## additional arguments to modify qplot() output
 
 ```r
 qplot(carat, price, data = diamonds, colour = color)
@@ -191,6 +199,7 @@ qplot(carat, price, data = diamonds, colour = color)
 ---
 
 ## ggplot2 graphics are objects
+
 
 ```r
 p1 <- qplot(carat, price, data = diamonds, colour = color)
@@ -204,6 +213,7 @@ grid.arrange(p1, p2, ncol = 2)
 ---
 
 ## ggplot() - the real deal
+
 - takes two arguments: a data frame, and an aesthetic mapping
 
 ```r
@@ -216,7 +226,8 @@ Hmmm, no output!
 
 ---
 
-## Need to add a geom
+## need to add a geom
+
 
 ```r
 p <- ggplot(diamonds, aes(carat, price, colour = cut))
@@ -274,9 +285,11 @@ grid.arrange(p1, p2, ncol = 2)
 
 
 ```r
-p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = cyl), size = 5)
-p2 <- p1 + geom_line() + geom_smooth()
-grid.arrange(p1, p2, ncol = 2)
+p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = factor(cyl)), size = 5)
+p2 <- p1 + geom_smooth()
+p3 <- p1 + geom_smooth(aes(group = cyl, colour = factor(cyl)), method = "lm", 
+    size = 1.5)
+grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 ![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
@@ -359,6 +372,20 @@ grid.arrange(p1, p2, p3, ncol = 3)
 
 ---
 
+## other geoms: quantile regression (boxplot analogue for continuous variables)
+
+
+```r
+msamp <- movies[sample(nrow(movies), 1000), ]
+p <- ggplot(msamp, aes(year, rating)) + geom_point()
+p + geom_quantile()
+```
+
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+
+
+---
+
 ## other geoms: boxplots + flipped co-ordinates
 
 
@@ -366,7 +393,7 @@ grid.arrange(p1, p2, p3, ncol = 3)
 p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22.png) 
 
 
 ---
@@ -392,7 +419,7 @@ grid.arrange(p1, p2, p3, p4, ncol = 2)
 
 ## Variations on a scatter plot by substituting geoms
 
-![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
 
 
 ---
@@ -409,7 +436,7 @@ p3 <- ggplot(diamonds, aes(x = carat, y = price)) + geom_hex()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25.png) 
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
 
 
 --- 
@@ -420,7 +447,20 @@ grid.arrange(p1, p2, p3, ncol = 3)
 ggplot(diamonds, aes(clarity, fill = cut)) + geom_bar() + coord_polar()
 ```
 
-![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
+![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+
+
+---
+
+## alpha channel blending
+
+
+```r
+p <- ggplot(data = mpg) + aes(x = cty, fill = factor(cyl))
+p + geom_density(alpha = 0.5)
+```
+
+![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
 
 
 ---
@@ -436,7 +476,7 @@ ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Assault), map = states
     expand_limits(x = states_map$long, y = states_map$lat)
 ```
 
-![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
 
 
 ---
@@ -451,7 +491,34 @@ p2 <- p + coord_map("conic", lat0 = 20)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
+![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
+
+
+---
+
+## rasters
+
+
+```r
+# Generate data
+pp <- function(n, r = 4) {
+    x <- seq(-r * pi, r * pi, len = n)
+    df <- expand.grid(x = x, y = x)
+    df$r <- sqrt(df$x^2 + df$y^2)
+    df$z <- cos(df$r^2) * exp(-df$r/6)
+    df
+}
+p1 <- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
+p2 <- p1 %+% pp(200)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+---
+
+## rasters
+
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
 
 
 ---
@@ -489,33 +556,6 @@ geom_vline | Vertical line | |
 
 ---
 
-## rasters
-
-
-```r
-# Generate data
-pp <- function(n, r = 4) {
-    x <- seq(-r * pi, r * pi, len = n)
-    df <- expand.grid(x = x, y = x)
-    df$r <- sqrt(df$x^2 + df$y^2)
-    df$z <- cos(df$r^2) * exp(-df$r/6)
-    df
-}
-p1 <- ggplot(data = pp(20), aes(x = x, y = y, fill = z)) + geom_raster()
-p2 <- p1 %+% pp(200)
-grid.arrange(p1, p2, ncol = 2)
-```
-
-
----
-
-## rasters
-
-![plot of chunk unnamed-chunk-30](figure/unnamed-chunk-30.png) 
-
-
----
-
 ## facets
 
 >- facet_grid()
@@ -540,7 +580,7 @@ mpg2 <- subset(mpg, cyl != 5 & drv %in% c("4", "f"))
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 ```
 
-![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
 
 
 ---
@@ -552,7 +592,7 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl)
 ```
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
 
 
 ---
@@ -565,7 +605,7 @@ ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~
     .)
 ```
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
 
 
 ---
@@ -577,7 +617,7 @@ ggplot(data = mpg2, aes(cty)) + geom_histogram(binwidth = 2) + facet_grid(cyl ~
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
 
 
 ---
@@ -589,7 +629,7 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller = label_both)
 ```
 
-![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
 
 
 ---
@@ -602,12 +642,12 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv,
     labeller = label_both)
 ```
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
 
 
 ---
 
-## Custom labellers
+## custom labellers
 
 
 ```r
@@ -626,14 +666,14 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv,
 
 ---
 
-## Custom labellers
+## custom labellers
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
 
 
 ---
 
-## facets with margins
+## facets with marginals
 
 
 ```r
@@ -647,9 +687,9 @@ grid.arrange(p, p1, p2, ncol = 3)
 
 ---
 
-## facets with margins
+## facets with marginals
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
 
 
 ---
@@ -663,7 +703,7 @@ p2 <- p + facet_wrap(~cyl, scales = "free")
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-43](figure/unnamed-chunk-43.png) 
 
 
 ---
@@ -678,7 +718,7 @@ p2 <- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
+![plot of chunk unnamed-chunk-44](figure/unnamed-chunk-44.png) 
 
 
 ---
@@ -695,7 +735,7 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
     expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 ```
 
-![plot of chunk unnamed-chunk-44](figure/unnamed-chunk-44.png) 
+![plot of chunk unnamed-chunk-46](figure/unnamed-chunk-46.png) 
 
 ---
 
@@ -707,7 +747,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 p + annotate("text", x = 4, y = 25, label = "Some text")
 ```
 
-![plot of chunk unnamed-chunk-45](figure/unnamed-chunk-45.png) 
+![plot of chunk unnamed-chunk-47](figure/unnamed-chunk-47.png) 
 
 
 ---
@@ -719,7 +759,7 @@ p + annotate("text", x = 4, y = 25, label = "Some text")
 p + annotate("rect", xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 ```
 
-![plot of chunk unnamed-chunk-46](figure/unnamed-chunk-46.png) 
+![plot of chunk unnamed-chunk-48](figure/unnamed-chunk-48.png) 
 
 
 ---
@@ -732,7 +772,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point
 p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 ```
 
-![plot of chunk unnamed-chunk-47](figure/unnamed-chunk-47.png) 
+![plot of chunk unnamed-chunk-49](figure/unnamed-chunk-49.png) 
 
 
 ---
@@ -748,7 +788,7 @@ p3 <- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-48](figure/unnamed-chunk-48.png) 
+![plot of chunk unnamed-chunk-50](figure/unnamed-chunk-50.png) 
 
 
 ---
@@ -763,7 +803,7 @@ p3 <- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-49](figure/unnamed-chunk-49.png) 
+![plot of chunk unnamed-chunk-51](figure/unnamed-chunk-51.png) 
 
 
 --- 
@@ -778,15 +818,30 @@ p3 <- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-50](figure/unnamed-chunk-50.png) 
+![plot of chunk unnamed-chunk-52](figure/unnamed-chunk-52.png) 
 
 ---
 
-## Non-linear mixed model from MASS: lattice vs ggplot2
+## customised themes
 
-* Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
 
-* First estimate starting parameters
+```r
+p1 <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) + geom_point(aes(color = Species))
+p2 <- p1 + theme(panel.background = element_rect(fill = "green"))
+p2 <- p2 + theme(panel.grid.major = element_line(colour = "black")) + labs(title = "Yuk!")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+![plot of chunk unnamed-chunk-53](figure/unnamed-chunk-53.png) 
+
+
+---
+
+## non-linear mixed model from MASS: lattice vs ggplot2
+
+* example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+
+* first estimate starting parameters
 
 
 ```r
@@ -802,9 +857,9 @@ st.pars <- st$m$getPars()
 
 ---
 
-## Non-linear mixed model from MASS: lattice vs ggplot2
+## non-linear mixed model from MASS: lattice vs ggplot2
 
-Fit several mixed models
+fit several mixed models
 
 
 ```r
@@ -825,7 +880,7 @@ R.nlme2 <- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
 
 ---
 
-## Non-linear mixed model from MASS - lattice
+## non-linear mixed model from MASS - lattice
 
 
 
@@ -845,7 +900,7 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 
 ---
 
-## Non-linear mixed model from MASS - ggplot2
+## non-linear mixed model from MASS - ggplot2
 
 
 ```r
@@ -861,21 +916,21 @@ p
 
 ---
 
-## Non-linear mixed model from MASS - lattice
+## non-linear mixed model from MASS - lattice
 
-![plot of chunk unnamed-chunk-56](figure/unnamed-chunk-56.png) 
+![plot of chunk unnamed-chunk-59](figure/unnamed-chunk-59.png) 
 
 
 ---
 
-## Non-linear mixed model from MASS - ggplot2
+## non-linear mixed model from MASS - ggplot2
 
-![plot of chunk unnamed-chunk-57](figure/unnamed-chunk-57.png) 
+![plot of chunk unnamed-chunk-60](figure/unnamed-chunk-60.png) 
 
 
 --- 
 
-## Summary
+## summary
 
 >- ggplot2 a viable alternative to base R graphics and the lattice package
 >- still some gaps
@@ -888,7 +943,7 @@ p
 
 ---
 
-## Enough!
+## enough!
 
 
 
