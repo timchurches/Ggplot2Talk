@@ -1099,10 +1099,13 @@ grid.arrange(p1, p2, p3, ncol = 3)
 
       <slide class="" id="slide-52" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS- lattice vs ggplot2</h2>
+    <h2>Non-linear mixed model from MASS: lattice vs ggplot2</h2>
   </hgroup>
   <article>
-    <p>Estimate starting parameters</p>
+    <ul>
+<li><p>Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7</p></li>
+<li><p>First estimate starting parameters</p></li>
+</ul>
 
 <pre><code class="r">require(MASS, nlme, splines, lattice)
 Fpl &lt;- deriv(~A + (B - A)/(1 + exp((log(d) - ld50)/th)), c(&quot;A&quot;, &quot;B&quot;, &quot;ld50&quot;, 
@@ -1111,11 +1114,6 @@ Fpl &lt;- deriv(~A + (B - A)/(1 + exp((log(d) - ld50)/th)), c(&quot;A&quot;, &qu
 st &lt;- nls(BPchange ~ Fpl(Dose, A, B, ld50, th), start = c(A = 25, B = 0, ld50 = 4, 
     th = 0.25), data = Rabbit)
 st.pars &lt;- st$m$getPars()
-st.pars
-</code></pre>
-
-<pre><code>##       A       B    ld50      th 
-## 27.7954  1.5912  4.1214  0.3642
 </code></pre>
 
   </article>
@@ -1124,7 +1122,7 @@ st.pars
 
       <slide class="" id="slide-53" style="background:;">
   <hgroup>
-    <h2>Non-linear mixed model from MASS - lattice vs ggplot2</h2>
+    <h2>Non-linear mixed model from MASS: lattice vs ggplot2</h2>
   </hgroup>
   <article>
     <p>Fit several mixed models</p>
@@ -1154,7 +1152,7 @@ R.nlme2 &lt;- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
   <article>
     <pre><code class="r">xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = &quot;log(Dose) of Phenylbiguanide&quot;, 
     ylab = &quot;Change in blood pressure (mm Hg)&quot;, subscripts = T, aspect = &quot;fill&quot;, 
-    panel = function(x, y, subscripts) {
+    main = title, panel = function(x, y, subscripts) {
         panel.grid()
         panel.xyplot(x, y)
         sp &lt;- spline(x, fitted(R.nlme2)[subscripts])
@@ -1173,10 +1171,11 @@ R.nlme2 &lt;- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
   <article>
     <pre><code class="r">Rabbit2 &lt;- cbind(Rabbit, fitted = fitted(R.nlme2))
 p &lt;- ggplot(data = Rabbit2, aes(x = log(Dose), y = BPchange))
-p &lt;- p + geom_point(colour = &quot;red&quot;) + facet_grid(Treatment ~ Animal)
+p &lt;- p + labs(title = title, x = &quot;log(Dose) of Phenylbiguanide&quot;, y = &quot;Change in blood pressure (mm Hg)&quot;)
+p &lt;- p + geom_point(colour = &quot;red&quot;) + facet_grid(Treatment ~ Animal, as.table = F)
 p &lt;- p + geom_smooth(aes(y = fitted), method = &quot;lm&quot;, formula = y ~ ns(x, df = 5), 
     se = F)
-p + xlab(&quot;log(Dose) of Phenylbiguanide&quot;) + ylab(&quot;Change in blood pressure (mm Hg)&quot;)
+p
 </code></pre>
 
   </article>
@@ -1188,7 +1187,7 @@ p + xlab(&quot;log(Dose) of Phenylbiguanide&quot;) + ylab(&quot;Change in blood 
     <h2>Non-linear mixed model from MASS - lattice</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-51.png" alt="plot of chunk unnamed-chunk-51"> </p>
+    <p><img src="figure/unnamed-chunk-52.png" alt="plot of chunk unnamed-chunk-52"> </p>
 
   </article>
   <!-- Presenter Notes -->
@@ -1199,7 +1198,7 @@ p + xlab(&quot;log(Dose) of Phenylbiguanide&quot;) + ylab(&quot;Change in blood 
     <h2>Non-linear mixed model from MASS - ggplot2</h2>
   </hgroup>
   <article>
-    <p><img src="figure/unnamed-chunk-52.png" alt="plot of chunk unnamed-chunk-52"> </p>
+    <p><img src="figure/unnamed-chunk-53.png" alt="plot of chunk unnamed-chunk-53"> </p>
 
   </article>
   <!-- Presenter Notes -->

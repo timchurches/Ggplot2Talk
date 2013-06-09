@@ -610,21 +610,22 @@ grid.arrange(p1,p2,p3,ncol=3)
 ```
 ---
 
-## Non-linear mixed model from MASS- lattice vs ggplot2
+## Non-linear mixed model from MASS: lattice vs ggplot2
 
-Estimate starting parameters
+* Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+
+* First estimate starting parameters
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 require(MASS, nlme, splines, lattice)
 Fpl <- deriv(~ A + (B-A)/(1 + exp((log(d) - ld50)/th)), c("A","B","ld50","th"), function(d, A, B, ld50, th) {} )
 st <- nls(BPchange ~ Fpl(Dose, A, B, ld50, th), start = c(A=25, B=0, ld50=4, th=0.25), data=Rabbit)
 st.pars <- st$m$getPars()
-st.pars
 ```
 
 ---
 
-## Non-linear mixed model from MASS - lattice vs ggplot2
+## Non-linear mixed model from MASS: lattice vs ggplot2
 
 Fit several mixed models
 
@@ -641,8 +642,12 @@ R.nlme2 <- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~ 1),
 
 ## Non-linear mixed model from MASS - lattice
 
-```{r echo=TRUE, eval=FALSE, fig.width=14, fig.height=7}
-xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", panel = function(x, y, subscripts) {
+```{r echo=FALSE, eval=TRUE}
+title <- "Effect of MDL 72222 on phenylbiguanide-induced BP change in rabbits\nData shown as points, fitted values from nonlinear mixed effects models as a spline"
+```
+
+```{r echo=TRUE, eval=FALSE}
+xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", main=title, panel = function(x, y, subscripts) {
   panel.grid()
   panel.xyplot(x, y)
   sp <- spline(x, fitted(R.nlme2)[subscripts])
@@ -654,20 +659,21 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 
 ## Non-linear mixed model from MASS - ggplot2
 
-```{r echo=TRUE, eval=FALSE, fig.width=14, fig.height=7}
+```{r echo=TRUE, eval=FALSE}
 Rabbit2 <- cbind(Rabbit, fitted=fitted(R.nlme2))
 p <- ggplot(data=Rabbit2, aes(x=log(Dose), y=BPchange))
-p <- p + geom_point(colour="red") + facet_grid(Treatment ~ Animal)
+p <- p + labs(title=title, x="log(Dose) of Phenylbiguanide", y="Change in blood pressure (mm Hg)")
+p <- p + geom_point(colour="red") + facet_grid(Treatment ~ Animal, as.table=F)
 p <- p + geom_smooth(aes(y=fitted), method = "lm", formula= y ~ ns(x,df=5),se=F)
-p + xlab("log(Dose) of Phenylbiguanide") + ylab("Change in blood pressure (mm Hg)")
+p
 ```
 
 ---
 
 ## Non-linear mixed model from MASS - lattice
 
-```{r echo=FALSE, eval=TRUE, fig.width=14, fig.height=7}
-xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", panel = function(x, y, subscripts) {
+```{r echo=FALSE, eval=TRUE, fig.width=12, fig.height=7, message=FALSE, warning=FALSE}
+xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", main=title, panel = function(x, y, subscripts) {
   panel.grid()
   panel.xyplot(x, y)
   sp <- spline(x, fitted(R.nlme2)[subscripts])
@@ -679,13 +685,14 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 
 ## Non-linear mixed model from MASS - ggplot2
 
-```{r echo=FALSE, eval=TRUE, fig.width=14, fig.height=7, message=FALSE, warning=FALSE}
+```{r echo=FALSE, eval=TRUE, fig.width=12, fig.height=6, message=FALSE, warning=FALSE}
 library(splines)
 Rabbit2 <- cbind(Rabbit, fitted=fitted(R.nlme2))
 p <- ggplot(data=Rabbit2, aes(x=log(Dose), y=BPchange))
-p <- p + geom_point(colour="red") + facet_grid(Treatment ~ Animal)
+p <- p + labs(title=title, x="log(Dose) of Phenylbiguanide", y="Change in blood pressure (mm Hg)")
+p <- p + geom_point(colour="red") + facet_grid(Treatment ~ Animal, as.table=F)
 p <- p + geom_smooth(aes(y=fitted), method = "lm", formula= y ~ ns(x,df=5),se=F)
-p + xlab("log(Dose) of Phenylbiguanide") + ylab("Change in blood pressure (mm Hg)")
+p
 ```
 
 --- 

@@ -729,9 +729,11 @@ grid.arrange(p1, p2, p3, ncol = 3)
 
 ---
 
-## Non-linear mixed model from MASS- lattice vs ggplot2
+## Non-linear mixed model from MASS: lattice vs ggplot2
 
-Estimate starting parameters
+* Example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+
+* First estimate starting parameters
 
 
 ```r
@@ -742,18 +744,12 @@ Fpl <- deriv(~A + (B - A)/(1 + exp((log(d) - ld50)/th)), c("A", "B", "ld50",
 st <- nls(BPchange ~ Fpl(Dose, A, B, ld50, th), start = c(A = 25, B = 0, ld50 = 4, 
     th = 0.25), data = Rabbit)
 st.pars <- st$m$getPars()
-st.pars
-```
-
-```
-##       A       B    ld50      th 
-## 27.7954  1.5912  4.1214  0.3642
 ```
 
 
 ---
 
-## Non-linear mixed model from MASS - lattice vs ggplot2
+## Non-linear mixed model from MASS: lattice vs ggplot2
 
 Fit several mixed models
 
@@ -779,10 +775,13 @@ R.nlme2 <- update(R.nlme1, fixed = list(A ~ 1, B ~ 1, ld50 ~ Treatment, th ~
 ## Non-linear mixed model from MASS - lattice
 
 
+
+
+
 ```r
 xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of Phenylbiguanide", 
     ylab = "Change in blood pressure (mm Hg)", subscripts = T, aspect = "fill", 
-    panel = function(x, y, subscripts) {
+    main = title, panel = function(x, y, subscripts) {
         panel.grid()
         panel.xyplot(x, y)
         sp <- spline(x, fitted(R.nlme2)[subscripts])
@@ -799,10 +798,11 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit, xlab = "log(Dose) of P
 ```r
 Rabbit2 <- cbind(Rabbit, fitted = fitted(R.nlme2))
 p <- ggplot(data = Rabbit2, aes(x = log(Dose), y = BPchange))
-p <- p + geom_point(colour = "red") + facet_grid(Treatment ~ Animal)
+p <- p + labs(title = title, x = "log(Dose) of Phenylbiguanide", y = "Change in blood pressure (mm Hg)")
+p <- p + geom_point(colour = "red") + facet_grid(Treatment ~ Animal, as.table = F)
 p <- p + geom_smooth(aes(y = fitted), method = "lm", formula = y ~ ns(x, df = 5), 
     se = F)
-p + xlab("log(Dose) of Phenylbiguanide") + ylab("Change in blood pressure (mm Hg)")
+p
 ```
 
 
@@ -810,14 +810,14 @@ p + xlab("log(Dose) of Phenylbiguanide") + ylab("Change in blood pressure (mm Hg
 
 ## Non-linear mixed model from MASS - lattice
 
-![plot of chunk unnamed-chunk-51](figure/unnamed-chunk-51.png) 
+![plot of chunk unnamed-chunk-52](figure/unnamed-chunk-52.png) 
 
 
 ---
 
 ## Non-linear mixed model from MASS - ggplot2
 
-![plot of chunk unnamed-chunk-52](figure/unnamed-chunk-52.png) 
+![plot of chunk unnamed-chunk-53](figure/unnamed-chunk-53.png) 
 
 
 --- 
