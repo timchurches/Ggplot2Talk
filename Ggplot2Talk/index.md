@@ -398,7 +398,7 @@ p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 
 ---
 
-## Variations on a scatter plot by substituting geoms
+## variations on a scatter plot by substituting geoms
 
 
 ```r
@@ -417,7 +417,7 @@ grid.arrange(p1, p2, p3, p4, ncol = 2)
 
 ---
 
-## Variations on a scatter plot by substituting geoms
+## variations on a scatter plot by substituting geoms
 
 ![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
 
@@ -944,6 +944,7 @@ p
 ---
 
 ## enough!
+
 
 
 

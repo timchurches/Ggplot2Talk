@@ -330,7 +330,7 @@ p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 
 ---
 
-## Variations on a scatter plot by substituting geoms
+## variations on a scatter plot by substituting geoms
 
 ```{r eval=F, fig.width=12, fig.height=7, message=FALSE, warning=FALSE}
 rnorm.df <- data.frame('value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'other_value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'mean'=c(rep(0,300),rep(3,100)) )
@@ -345,7 +345,7 @@ grid.arrange(p1,p2,p3,p4,ncol=2)
 
 ---
 
-## Variations on a scatter plot by substituting geoms
+## variations on a scatter plot by substituting geoms
 
 ```{r eval=T, echo=F, fig.width=12, fig.height=7, message=FALSE, warning=FALSE}
 rnorm.df <- data.frame('value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'other_value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'mean'=c(rep(0,300),rep(3,100)) )
@@ -805,6 +805,7 @@ p
 ---
 
 ## enough!
+
 
 
 
