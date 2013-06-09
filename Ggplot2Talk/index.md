@@ -380,10 +380,10 @@ rnorm.df <- data.frame(value = c(rnorm(300, mean = 0), rnorm(100, mean = 3)),
         300), rep(3, 100)))
 p <- ggplot(data = rnorm.df)
 p <- p + aes(x = value, y = other_value)
-p1 <- p + geom_point() + ggtitle("geom_point")
-p2 <- p + geom_bin2d() + ggtitle("geom_bin2d")
-p3 <- p + geom_point(alpha = 0.4) + geom_density2d() + ggtitle("geom_point + geom_density2d")
-p4 <- p + geom_hex() + ggtitle("geom_hex")
+p1 <- p + geom_point() + labs(title = "geom_point")
+p2 <- p + geom_bin2d() + labs(title = "geom_bin2d")
+p3 <- p + geom_point(alpha = 0.4) + geom_density2d() + labs(title = "geom_point + geom_density2d")
+p4 <- p + geom_hex() + labs(title = "geom_hex")
 grid.arrange(p1, p2, p3, p4, ncol = 2)
 ```
 
@@ -528,6 +528,8 @@ grid.arrange(p1, p2, ncol = 2)
 
 >- facetting uses a formula interface, like lattice
 
+>- options for changing facet order and labelling
+
 ---
 
 ## no facets
@@ -580,12 +582,63 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl)
 
 ---
 
+## facets: label with varaiable name and value
+
+
+```r
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller = label_both)
+```
+
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+
+
+---
+
+## nested facets
+
+
+```r
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv, 
+    labeller = label_both)
+```
+
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+
+
+---
+
+## Custom labellers
+
+
+```r
+cyl_drv_custom_labeller <- function(variable, value) {
+    if (variable == "cyl") {
+        return(paste(value, "cylinders"))
+    } else if (variable == "drv") {
+        drv.types <- list(`4` = "4WD", f = "Front-wheel drive")
+        return(drv.types[value])
+    }
+}
+ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(. ~ cyl + drv, 
+    labeller = cyl_drv_custom_labeller)
+```
+
+
+---
+
+## Custom labellers
+
+![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+
+
+---
+
 ## facets with margins
 
 
 ```r
-p <- ggplot(data = mpg2, aes(displ, hwy)) + geom_point(alpha = 0.25) + geom_smooth(method = "lm", 
-    se = F)
+p <- ggplot(data = mpg2, aes(displ, hwy)) + geom_point(alpha = 0.25)
+p <- p + geom_smooth(method = "lm", se = F)
 p1 <- p + facet_grid(cyl ~ drv)
 p2 <- p + facet_grid(cyl ~ drv, margins = T)
 grid.arrange(p, p1, p2, ncol = 3)
@@ -596,7 +649,7 @@ grid.arrange(p, p1, p2, ncol = 3)
 
 ## facets with margins
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
 
 
 ---
@@ -610,7 +663,7 @@ p2 <- p + facet_wrap(~cyl, scales = "free")
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
 
 
 ---
@@ -625,7 +678,7 @@ p2 <- p1 + facet_grid(. ~ cyl2, labeller = label_parsed)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-38.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
 
 
 ---
@@ -642,7 +695,7 @@ ggplot(crimes.melted, aes(map_id = state)) + geom_map(aes(fill = value), map = s
     expand_limits(x = states_map$long, y = states_map$lat) + coord_map() + facet_wrap(~variable)
 ```
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-40.png) 
+![plot of chunk unnamed-chunk-44](figure/unnamed-chunk-44.png) 
 
 ---
 
@@ -654,7 +707,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 p + annotate("text", x = 4, y = 25, label = "Some text")
 ```
 
-![plot of chunk unnamed-chunk-41](figure/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-45](figure/unnamed-chunk-45.png) 
 
 
 ---
@@ -666,7 +719,7 @@ p + annotate("text", x = 4, y = 25, label = "Some text")
 p + annotate("rect", xmin = 3, xmax = 4.2, ymin = 12, ymax = 21, alpha = 0.2)
 ```
 
-![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-42.png) 
+![plot of chunk unnamed-chunk-46](figure/unnamed-chunk-46.png) 
 
 
 ---
@@ -679,7 +732,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, label = rownames(mtcars))) + geom_point
 p + geom_text(aes(colour = factor(cyl))) + scale_colour_discrete(l = 40)
 ```
 
-![plot of chunk unnamed-chunk-43](figure/unnamed-chunk-43.png) 
+![plot of chunk unnamed-chunk-47](figure/unnamed-chunk-47.png) 
 
 
 ---
@@ -695,7 +748,7 @@ p3 <- p1 + scale_colour_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-44](figure/unnamed-chunk-44.png) 
+![plot of chunk unnamed-chunk-48](figure/unnamed-chunk-48.png) 
 
 
 ---
@@ -710,7 +763,7 @@ p3 <- p2 + scale_fill_grey()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-45](figure/unnamed-chunk-45.png) 
+![plot of chunk unnamed-chunk-49](figure/unnamed-chunk-49.png) 
 
 
 --- 
@@ -725,7 +778,7 @@ p3 <- p1 + theme_minimal()
 grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
-![plot of chunk unnamed-chunk-46](figure/unnamed-chunk-46.png) 
+![plot of chunk unnamed-chunk-50](figure/unnamed-chunk-50.png) 
 
 ---
 
@@ -810,14 +863,14 @@ p
 
 ## Non-linear mixed model from MASS - lattice
 
-![plot of chunk unnamed-chunk-52](figure/unnamed-chunk-52.png) 
+![plot of chunk unnamed-chunk-56](figure/unnamed-chunk-56.png) 
 
 
 ---
 
 ## Non-linear mixed model from MASS - ggplot2
 
-![plot of chunk unnamed-chunk-53](figure/unnamed-chunk-53.png) 
+![plot of chunk unnamed-chunk-57](figure/unnamed-chunk-57.png) 
 
 
 --- 

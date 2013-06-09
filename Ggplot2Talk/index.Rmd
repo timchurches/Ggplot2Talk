@@ -219,7 +219,7 @@ summary(p)
 ## replacing data in a plot object
 - use the ```%+%```` operator to replace datasets in a graphic object
 
-```{r fig.width=12, fig.height=5}
+```{r fig.width=12, fig.height=4.5}
 p1 <- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
 mtcars2 <- transform(mtcars, mpg = mpg ^ 2)
 p2 <- p1 %+% mtcars2
@@ -230,7 +230,7 @@ grid.arrange(p1,p2,ncol=2)
 
 ## aesthetic mappings can be added to geoms as well
 
-```{r fig.width=12, fig.height=5, message=FALSE, warning=FALSE}
+```{r fig.width=12, fig.height=4.5, message=FALSE, warning=FALSE}
 p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = cyl),size=5)
 p2 <- p1 + geom_line() + geom_smooth()
 grid.arrange(p1,p2,ncol=2)
@@ -314,10 +314,10 @@ p + geom_boxplot(outlier.colour = "green", outlier.size = 5) + coord_flip()
 rnorm.df <- data.frame('value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'other_value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'mean'=c(rep(0,300),rep(3,100)) )
 p <- ggplot(data=rnorm.df)
 p <- p + aes(x=value,y=other_value)
-p1 <- p + geom_point() + ggtitle("geom_point")
-p2 <- p + geom_bin2d() + ggtitle("geom_bin2d")
-p3 <- p + geom_point(alpha=0.4) + geom_density2d() + ggtitle("geom_point + geom_density2d")
-p4 <- p + geom_hex() + ggtitle("geom_hex")
+p1 <- p + geom_point() + labs(title="geom_point")
+p2 <- p + geom_bin2d() + labs(title="geom_bin2d")
+p3 <- p + geom_point(alpha=0.4) + geom_density2d() + labs(title="geom_point + geom_density2d")
+p4 <- p + geom_hex() + labs(title="geom_hex")
 grid.arrange(p1,p2,p3,p4,ncol=2)
 ```
 
@@ -329,10 +329,10 @@ grid.arrange(p1,p2,p3,p4,ncol=2)
 rnorm.df <- data.frame('value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'other_value'=c(rnorm(300, mean=0), rnorm(100, mean=3)), 'mean'=c(rep(0,300),rep(3,100)) )
 p <- ggplot(data=rnorm.df)
 p <- p + aes(x=value,y=other_value)
-p1 <- p + geom_point() + ggtitle("geom_point")
-p2 <- p + geom_bin2d() + ggtitle("geom_bin2d")
-p3 <- p + geom_point(alpha=0.4) + geom_density2d() + ggtitle("geom_point + geom_density2d")
-p4 <- p + geom_hex() + ggtitle("geom_hex")
+p1 <- p + geom_point() + labs(title="geom_point")
+p2 <- p + geom_bin2d() + labs(title="geom_bin2d")
+p3 <- p + geom_point(alpha=0.4) + geom_density2d() + labs(title="geom_point + geom_density2d")
+p4 <- p + geom_hex() + labs(title="geom_hex")
 grid.arrange(p1,p2,p3,p4,ncol=2)
 ```
 
@@ -462,6 +462,8 @@ grid.arrange(p1,p2,ncol=2)
 
 >- facetting uses a formula interface, like lattice
 
+>- options for changing facet order and labelling
+
 ---
 
 ## no facets
@@ -497,10 +499,59 @@ ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(drv ~ cyl)
 
 ---
 
+## facets: label with varaiable name and value
+
+```{r fig.width=8, fig.height=6, message=FALSE, warning=FALSE}
+ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller=label_both)
+```
+
+---
+
+## nested facets
+
+```{r fig.width=12, fig.height=5, message=FALSE, warning=FALSE}
+ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, labeller=label_both)
+```
+
+---
+
+## Custom labellers
+
+```{r eval=FALSE, fig.width=14, fig.height=7, message=FALSE, warning=FALSE}
+cyl_drv_custom_labeller <- function(variable,value) {
+  if (variable=='cyl') {
+    return(paste(value,"cylinders"))
+  } else if (variable=="drv") {
+      drv.types <- list("4"="4WD","f"="Front-wheel drive")
+      return(drv.types[value])
+  }
+}
+ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, labeller=cyl_drv_custom_labeller)
+```
+
+---
+
+## Custom labellers
+
+```{r eval=TRUE, echo=FALSE, fig.width=14, fig.height=7}
+cyl_drv_custom_labeller <- function(variable,value) {
+  if (variable=='cyl') {
+    return(paste(value,"cylinders"))
+  } else if (variable=="drv") {
+      drv.types <- list("4"="4WD","f"="Front-wheel drive")
+      return(drv.types[value])
+  }
+}
+ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(. ~ cyl + drv, labeller=cyl_drv_custom_labeller)
+```
+
+---
+
 ## facets with margins
 
 ``` {r eval=FALSE, echo=TRUE}
-p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) + geom_smooth(method = "lm", se = F)
+p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) 
+p <- p + geom_smooth(method = "lm", se = F)
 p1 <- p + facet_grid(cyl ~ drv)
 p2 <- p + facet_grid(cyl ~ drv, margins = T)
 grid.arrange(p, p1,p2,ncol=3)
@@ -511,7 +562,8 @@ grid.arrange(p, p1,p2,ncol=3)
 ## facets with margins
 
 ``` {r fig.width=14, fig.height=7, echo=FALSE, message=FALSE, warning=FALSE}
-p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) + geom_smooth(method = "lm", se = F)
+p <- ggplot(data = mpg2, aes(displ,hwy)) + geom_point(alpha=0.25) 
+p <- p + geom_smooth(method = "lm", se = F)
 p1 <- p + facet_grid(cyl ~ drv)
 p2 <- p + facet_grid(cyl ~ drv, margins = T)
 grid.arrange(p, p1,p2,ncol=3)
