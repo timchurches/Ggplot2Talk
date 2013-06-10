@@ -928,7 +928,129 @@ p
 ![plot of chunk unnamed-chunk-60](figure/unnamed-chunk-60.png) 
 
 
---- 
+---
+
+## KM plot with base R graphics
+* uses the special ```plot``` method in the ```survfit``` class
+
+```r
+lungca.Surv <- Surv(lung$time, lung$status)
+lungca.survfit <- survfit(lungca.Surv ~ 1, data = lung)
+plot(lungca.survfit, mark.time = TRUE)
+```
+
+![plot of chunk unnamed-chunk-61](figure/unnamed-chunk-61.png) 
+
+
+---
+
+## KM curves with ggplot2
+
+* to plot Kaplan-Meier curves from ```survfit``` objects using ggplot2, we first need to get the data into a suitable data frame
+  * we can write a generic function to do that
+    * fortunately, one has already been written by Ramon Saccilotto of the Basel Institute for Clinical Epidemiology and Biostatistics, Universitätsspital, Basel (see http://www.ceb-institute.org/bbs/wp-content/uploads/2011/09/handout_ggplot2.pdf)
+    * full source code for this function appears in the source code for this ```slidify``` presentation
+
+
+```r
+createSurvivalFrame <- function(f.survfit){
+  # initialise frame variable
+  f.frame <- NULL
+  # check if more then one strata
+  if(length(names(f.survfit$strata)) == 0){
+    ...
+```
+
+
+
+
+
+---
+
+## KM curves with ggplot2
+
+
+```r
+lungca.survframe <- createSurvivalFrame(lungca.survfit)
+ggplot(data = lungca.survframe) + geom_step(aes(x = time, y = surv), direction = "hv") + 
+    geom_step(aes(x = time, y = upper), directions = "hv", linetype = 2) + geom_step(aes(x = time, 
+    y = lower), direction = "hv", linetype = 2) + geom_point(data = subset(lungca.survframe, 
+    n.censor == 1), aes(x = time, y = surv), shape = 20)
+```
+
+![plot of chunk unnamed-chunk-64](figure/unnamed-chunk-64.png) 
+
+
+---
+
+## stratified KM plots with ggplot2
+
+
+
+
+
+```r
+ggplot(data = lungca.sex.survframe, aes(colour = strata, group = strata)) + 
+    geom_step(aes(x = time, y = surv), direction = "hv") + geom_step(aes(x = time, 
+    y = upper), directions = "hv", linetype = 2, alpha = 0.5) + geom_step(aes(x = time, 
+    y = lower), direction = "hv", linetype = 2, alpha = 0.5) + geom_point(data = subset(lungca.sex.survframe, 
+    n.censor == 1), aes(x = time, y = surv), shape = 20) + theme_bw()
+```
+
+![plot of chunk unnamed-chunk-66](figure/unnamed-chunk-66.png) 
+
+
+---
+
+## stratified KM plots with ggplot2
+
+
+```r
+ggplot(data = lungca.sex.survframe, aes(colour = strata, group = strata)) + 
+    geom_step(aes(x = time, y = surv), direction = "hv") + geom_ribbon(aes(x = time, 
+    ymax = upper, ymin = lower, fill = strata), directions = "hv", linetype = 0, 
+    alpha = 0.25) + geom_point(data = subset(lungca.sex.survframe, n.censor == 
+    1), aes(x = time, y = surv), shape = 20) + theme_bw()
+```
+
+![plot of chunk unnamed-chunk-67](figure/unnamed-chunk-67.png) 
+
+
+---
+
+## a custom function for KM plots with ggplot2
+
+* wrap up the ggplot construction into a function
+  * full code in the ```slidify``` source code for this presentation
+
+
+```r
+qplot_survival <- function(f.frame, f.CI="default", f.shape=3){
+  # use different plotting commands dependig whether or not strata's are given
+  if("strata" %in% names(f.frame) == FALSE){
+    # confidence intervals are drawn if not specified otherwise
+    if(f.CI=="default" | f.CI==TRUE ){
+    ...
+```
+
+
+
+
+---
+
+## a custom function for KM plots with ggplot2
+
+
+```r
+t.survfit <- survfit(lungca.Surv ~ ph.karno, data = lung)
+t.survframe <- createSurvivalFrame(t.survfit)
+qplot_survival(t.survframe) + theme_bw()
+```
+
+![plot of chunk unnamed-chunk-70](figure/unnamed-chunk-70.png) 
+
+
+---
 
 ## summary
 

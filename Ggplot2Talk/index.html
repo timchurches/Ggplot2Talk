@@ -1331,6 +1331,148 @@ p
 
       <slide class="" id="slide-66" style="background:;">
   <hgroup>
+    <h2>KM plot with base R graphics</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>uses the special <code>plot</code> method in the <code>survfit</code> class</li>
+</ul>
+
+<pre><code class="r">lungca.Surv &lt;- Surv(lung$time, lung$status)
+lungca.survfit &lt;- survfit(lungca.Surv ~ 1, data = lung)
+plot(lungca.survfit, mark.time = TRUE)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-61.png" alt="plot of chunk unnamed-chunk-61"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>KM curves with ggplot2</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>to plot Kaplan-Meier curves from <code>survfit</code> objects using ggplot2, we first need to get the data into a suitable data frame
+
+<ul>
+<li>we can write a generic function to do that</li>
+<li>fortunately, one has already been written by Ramon Saccilotto of the Basel Institute for Clinical Epidemiology and Biostatistics, Universitätsspital, Basel (see <a href="http://www.ceb-institute.org/bbs/wp-content/uploads/2011/09/handout_ggplot2.pdf">http://www.ceb-institute.org/bbs/wp-content/uploads/2011/09/handout_ggplot2.pdf</a>)</li>
+<li>full source code for this function appears in the source code for this <code>slidify</code> presentation</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">createSurvivalFrame &lt;- function(f.survfit){
+  # initialise frame variable
+  f.frame &lt;- NULL
+  # check if more then one strata
+  if(length(names(f.survfit$strata)) == 0){
+    ...
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>KM curves with ggplot2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">lungca.survframe &lt;- createSurvivalFrame(lungca.survfit)
+ggplot(data = lungca.survframe) + geom_step(aes(x = time, y = surv), direction = &quot;hv&quot;) + 
+    geom_step(aes(x = time, y = upper), directions = &quot;hv&quot;, linetype = 2) + geom_step(aes(x = time, 
+    y = lower), direction = &quot;hv&quot;, linetype = 2) + geom_point(data = subset(lungca.survframe, 
+    n.censor == 1), aes(x = time, y = surv), shape = 20)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-64.png" alt="plot of chunk unnamed-chunk-64"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>stratified KM plots with ggplot2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = lungca.sex.survframe, aes(colour = strata, group = strata)) + 
+    geom_step(aes(x = time, y = surv), direction = &quot;hv&quot;) + geom_step(aes(x = time, 
+    y = upper), directions = &quot;hv&quot;, linetype = 2, alpha = 0.5) + geom_step(aes(x = time, 
+    y = lower), direction = &quot;hv&quot;, linetype = 2, alpha = 0.5) + geom_point(data = subset(lungca.sex.survframe, 
+    n.censor == 1), aes(x = time, y = surv), shape = 20) + theme_bw()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-66.png" alt="plot of chunk unnamed-chunk-66"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>stratified KM plots with ggplot2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ggplot(data = lungca.sex.survframe, aes(colour = strata, group = strata)) + 
+    geom_step(aes(x = time, y = surv), direction = &quot;hv&quot;) + geom_ribbon(aes(x = time, 
+    ymax = upper, ymin = lower, fill = strata), directions = &quot;hv&quot;, linetype = 0, 
+    alpha = 0.25) + geom_point(data = subset(lungca.sex.survframe, n.censor == 
+    1), aes(x = time, y = surv), shape = 20) + theme_bw()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-67.png" alt="plot of chunk unnamed-chunk-67"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>a custom function for KM plots with ggplot2</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>wrap up the ggplot construction into a function
+
+<ul>
+<li>full code in the <code>slidify</code> source code for this presentation</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">qplot_survival &lt;- function(f.frame, f.CI=&quot;default&quot;, f.shape=3){
+  # use different plotting commands dependig whether or not strata&#39;s are given
+  if(&quot;strata&quot; %in% names(f.frame) == FALSE){
+    # confidence intervals are drawn if not specified otherwise
+    if(f.CI==&quot;default&quot; | f.CI==TRUE ){
+    ...
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>a custom function for KM plots with ggplot2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">t.survfit &lt;- survfit(lungca.Surv ~ ph.karno, data = lung)
+t.survframe &lt;- createSurvivalFrame(t.survfit)
+qplot_survival(t.survframe) + theme_bw()
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-70.png" alt="plot of chunk unnamed-chunk-70"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-73" style="background:;">
+  <hgroup>
     <h2>summary</h2>
   </hgroup>
   <article>
@@ -1349,7 +1491,7 @@ p
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-67" style="background:;">
+      <slide class="" id="slide-74" style="background:;">
   <hgroup>
     <h2>enough!</h2>
   </hgroup>
