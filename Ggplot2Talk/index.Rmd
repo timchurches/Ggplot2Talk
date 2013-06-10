@@ -15,11 +15,13 @@ mode        : selfcontained # {selfcontained, standalone, draft}
 --- 
 
 ## source
-The majority of the material in this presentation is taken from the book:
-- Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009
-- DOI 10.1007/978-0-387-98141-3
+The majority of the material in this presentation is taken:
+- Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009 DOI 10.1007/978-0-387-98141-3
 - ![Hadley Wickham](assets/img/hadley_wickham.jpg)
 - ggplot2 documentation: http://docs.ggplot2.org/current/
+
+This presentation was created using ```slidify``` for R - see http://slidify.org
+- the Markdown source code for these slides, including the embedded R code, is avalaiable at https://github.com/timchurches/Ggplot2Talk
 
 ```{r echo=FALSE}
 opts_chunk$set(cache=TRUE)
@@ -39,7 +41,7 @@ Wilkinson (2005) created a grammar of graphics to describe the deep features tha
 
 ---
 
-## grammar of graphics, cont'd
+## grammar of graphics
 
    >- a coordinate system, ```coord``` for short, describing how data coordinates are mapped to the plane of the graphic
       - also provides axes and gridlines to make it possible to read the graph
@@ -108,7 +110,7 @@ Graphic by Software and Programmer Efficiency (Sape) Research Group at the Facul
 
 ---
 
-## ggplot2 versus other R graphics systems, cont'd
+## ggplot2 versus other R graphics systems
 
 >- lattice package, developed by Deepayan Sarkar, uses grid graphics to implement the trellis graphics system of Bill Cleveland (1985)
     - easily produce conditioned plots
@@ -239,7 +241,7 @@ grid.arrange(p1,p2,ncol=2)
 
 ---
 
-## aesthetic mappings can be added to geoms as well
+## aesthetic mappings can be added to geoms
 
 ```{r fig.width=14, fig.height=4.5, message=FALSE, warning=FALSE}
 p1 <- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = factor(cyl)),size=5)
@@ -530,7 +532,7 @@ ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(drv ~ cyl)
 
 ---
 
-## facets: label with varaiable name and value
+## facets: label with variable name and value
 
 ```{r fig.width=8, fig.height=6, message=FALSE, warning=FALSE}
 ggplot(data = mpg2, aes(cty,hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller=label_both)

@@ -60,13 +60,18 @@
     <h2>source</h2>
   </hgroup>
   <article>
-    <p>The majority of the material in this presentation is taken from the book:</p>
+    <p>The majority of the material in this presentation is taken:</p>
 
 <ul>
-<li>Hadley Wickham. <em>ggplot2: Elegant Graphics for Data Analysis</em> Springer:2009</li>
-<li>DOI 10.1007/978-0-387-98141-3</li>
+<li>Hadley Wickham. <em>ggplot2: Elegant Graphics for Data Analysis</em> Springer:2009 DOI 10.1007/978-0-387-98141-3</li>
 <li><img src="assets/img/hadley_wickham.jpg" alt="Hadley Wickham"></li>
 <li>ggplot2 documentation: <a href="http://docs.ggplot2.org/current/">http://docs.ggplot2.org/current/</a></li>
+</ul>
+
+<p>This presentation was created using <code>slidify</code> for R - see <a href="http://slidify.org">http://slidify.org</a></p>
+
+<ul>
+<li>the Markdown source code for these slides, including the embedded R code, is avalaiable at <a href="https://github.com/timchurches/Ggplot2Talk">https://github.com/timchurches/Ggplot2Talk</a></li>
 </ul>
 
   </article>
@@ -98,7 +103,7 @@
 
       <slide class="" id="slide-3" style="background:;">
   <hgroup>
-    <h2>grammar of graphics, cont&#39;d</h2>
+    <h2>grammar of graphics</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -227,7 +232,7 @@
 
       <slide class="" id="slide-8" style="background:;">
   <hgroup>
-    <h2>ggplot2 versus other R graphics systems, cont&#39;d</h2>
+    <h2>ggplot2 versus other R graphics systems</h2>
   </hgroup>
   <article>
     <ul class = "build">
@@ -451,7 +456,7 @@ grid.arrange(p1, p2, ncol = 2)
 
       <slide class="" id="slide-19" style="background:;">
   <hgroup>
-    <h2>aesthetic mappings can be added to geoms as well</h2>
+    <h2>aesthetic mappings can be added to geoms</h2>
   </hgroup>
   <article>
     <pre><code class="r">p1 &lt;- ggplot(mtcars, aes(mpg, wt)) + geom_point(aes(colour = factor(cyl)), size = 5)
@@ -973,7 +978,7 @@ ggplot(data = mpg2, aes(cty, hwy)) + geom_point()
 
       <slide class="" id="slide-44" style="background:;">
   <hgroup>
-    <h2>facets: label with varaiable name and value</h2>
+    <h2>facets: label with variable name and value</h2>
   </hgroup>
   <article>
     <pre><code class="r">ggplot(data = mpg2, aes(cty, hwy)) + geom_point() + facet_grid(drv ~ cyl, labeller = label_both)
