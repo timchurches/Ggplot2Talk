@@ -60,7 +60,7 @@
     <h2>source</h2>
   </hgroup>
   <article>
-    <p>The majority of the material in this presentation is taken:</p>
+    <p>The majority of the material in this presentation is borrowed from:</p>
 
 <ul>
 <li>Hadley Wickham. <em>ggplot2: Elegant Graphics for Data Analysis</em> Springer:2009 DOI 10.1007/978-0-387-98141-3</li>
@@ -1233,8 +1233,13 @@ grid.arrange(p1, p2, ncol = 2)
   </hgroup>
   <article>
     <ul>
-<li><p>example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7</p></li>
-<li><p>first estimate starting parameters</p></li>
+<li>example of effects of antaogonised (or not) phenylbiguanide on the blood pressure of rabbits, from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7, using a four parameter response function in log(dose):</li>
+</ul>
+
+<p>\[{f(\alpha, \beta, \lambda, \theta, x)} = {\alpha + {\beta - \alpha \over 1 + exp[(x - \lambda)/\theta]}}\]</p>
+
+<ul>
+<li>first estimate starting parameters</li>
 </ul>
 
 <pre><code class="r">require(MASS, nlme, splines, lattice)

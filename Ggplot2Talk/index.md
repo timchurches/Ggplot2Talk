@@ -15,7 +15,7 @@ mode        : selfcontained # {selfcontained, standalone, draft}
 --- 
 
 ## source
-The majority of the material in this presentation is taken:
+The majority of the material in this presentation is borrowed from:
 - Hadley Wickham. _ggplot2: Elegant Graphics for Data Analysis_ Springer:2009 DOI 10.1007/978-0-387-98141-3
 - ![Hadley Wickham](assets/img/hadley_wickham.jpg)
 - ggplot2 documentation: http://docs.ggplot2.org/current/
@@ -841,7 +841,9 @@ grid.arrange(p1, p2, ncol = 2)
 
 ## non-linear mixed model from MASS: lattice vs ggplot2
 
-* example from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7
+* example of effects of antaogonised (or not) phenylbiguanide on the blood pressure of rabbits, from W.N Venables and B.D. Ripley (1999). Modern Applied Statistics with S-PLUS (MASS), 3rd Ed. Springer. Section 8.8, pp273-7, using a four parameter response function in log(dose):
+
+$${f(\alpha, \beta, \lambda, \theta, x)} = {\alpha + {\beta - \alpha \over 1 + exp[(x - \lambda)/\theta]}}$$
 
 * first estimate starting parameters
 
