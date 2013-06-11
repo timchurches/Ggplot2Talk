@@ -21,7 +21,7 @@ The majority of the material in this presentation is borrowed from:
 - ggplot2 documentation: http://docs.ggplot2.org/current/
 
 This presentation was created using ```slidify``` for R - see http://slidify.org
-- the Markdown source code for these slides, including the embedded R code, is avalaiable at https://github.com/timchurches/Ggplot2Talk
+- the Markdown source code for these slides, including the embedded R code, is available at https://github.com/timchurches/Ggplot2Talk
 
 
 
