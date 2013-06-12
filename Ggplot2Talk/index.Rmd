@@ -959,14 +959,17 @@ qplot_survival(t.survframe) + theme_bw()
 
 ## summary
 
->- ggplot2 a viable alternative to base R graphics and the lattice package
->- still some gaps
->- very sensible defaults: graphs look nice without fiddling
->- very customisable, graphs are just R objects
->- built on a principled grammar of graphics
->- excellent web site, links to the book, tutorials: http://ggplot2.org
->- really excellent web documentation with lots of examples: http://docs.ggplot2.org/current/
->- dedicated mailing list, but lots of support and examples on StackOverflow etc
+* ggplot2 a viable alternative to base R graphics and the lattice package
+* still some gaps
+* very sensible defaults: graphs look nice without fiddling
+* very customisable, graphs are just R objects
+* built on a principled grammar of graphics
+* excellent web site, links to the book, tutorials: http://ggplot2.org
+* really excellent web documentation with lots of examples: http://docs.ggplot2.org/current/
+* dedicated mailing list, but lots of support and examples on StackOverflow etc
+* very highly recommended: Winston Chang. R Graphics Cookbook. O'Reilly Media 2012.
+  * comprehensive problem- and task-oriented coverage of everything you ever wanted to know about ggplot2
+  * see http://shop.oreilly.com/product/0636920023135.do (also available via Amazon on Kindle)
 
 ---
 
